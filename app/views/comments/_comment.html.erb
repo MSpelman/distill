@@ -1,0 +1,9 @@
+<%= div_for comment do %>
+  <tr>
+    <td><%= comment.rating %></td>
+    <td><%= comment.summary %></td>
+    <td><%= link_to t('.show_detail'), product_comment_path(@product, comment) %></td> <!-- "Show Detail" -->
+    <td><%= link_to t('.edit'), edit_product_comment_path(@product, comment) if edit_comment_allowed?(comment) %></td> <!-- "Edit" -->
+    <td><%= link_to t('.delete'), [@product, comment], method: :delete, data: { confirm: 'Are you sure?' } if delete_comment_allowed?(comment) %></td> <!-- "Delete" -->
+  </tr>
+<% end %>

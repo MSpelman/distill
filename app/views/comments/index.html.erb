@@ -1,0 +1,35 @@
+<h1><%= t('.title') %></h1> <!-- "Listing Comments" -->
+
+<table>
+  <thead>
+    <tr>
+      <th><%= t('.product') %></th> <!-- "Product" -->
+      <th><%= t('.rating') %></th> <!-- "Rating" -->
+      <th><%= t('.summary') %></th> <!-- "Summary" -->
+      <th><%= t('.detail') %></th> <!-- "Detail" -->
+      <th><%= t('.active') %></th> <!-- "Active" -->
+      <th><%= t('.user') %></th> <!-- "User" -->
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @comments.each do |comment| %>
+      <tr>
+        <td><%= comment.product.name_with_unit_price unless comment.product.nil? %></td>
+        <td><%= comment.rating %></td>
+        <td><%= comment.summary %></td>
+        <td><%= comment.detail %></td>
+        <td><%= comment.active %></td>
+        <td><%= comment.user.name_and_email unless comment.user.nil? %></td>
+        <td><%= link_to t('.show'), product_comment_path(comment.product, comment) %></td> <!-- "Show" -->
+        <% if approve_allowed?(comment) %>
+          <td><%= link_to t('.approve'), approve_product_comment_path(comment.product, comment) %></td> <!-- "Approve" -->
+        <% end %>
+        <td><%= link_to t('.delete'), [comment.product, comment], method: :delete, data: { confirm: 'Are you sure?' } if delete_comment_allowed?(comment) %></td> <!-- "Delete" -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>

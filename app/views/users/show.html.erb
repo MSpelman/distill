@@ -1,0 +1,80 @@
+<p>
+  <strong><%= t('.email') %></strong> <!-- "Email:" -->
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong><%= t('.name') %></strong> <!-- "Name:" -->
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong><%= t('.address_1') %></strong> <!-- "Address 1:" -->
+  <%= @user.address_1 %>
+</p>
+
+<p>
+  <strong><%= t('.address_2') %></strong> <!-- "Address 2:" -->
+  <%= @user.address_2 %>
+</p>
+
+<p>
+  <strong><%= t('.apt_number') %></strong> <!-- "Apt number:" -->
+  <%= @user.apt_number %>
+</p>
+
+<p>
+  <strong><%= t('.city') %></strong> <!-- "City:" -->
+  <%= @user.city %>
+</p>
+
+<p>
+  <strong><%= t('.state') %></strong> <!-- "State:" -->
+  <%= @user.state %>
+</p>
+
+<p>
+  <strong><%= t('.zip_code') %></strong> <!-- "Zip code:" -->
+  <%= @user.zip_code %>
+</p>
+
+<p>
+  <strong><%= t('.newsletter') %></strong> <!-- "Newsletter:" -->
+  <%= @user.newsletter %>
+</p>
+
+<p>
+  <strong><%= t('.active') %></strong> <!-- "Active:" -->
+  <%= @user.active %>
+</p>
+
+<p>
+  <strong><%= t('.admin') %></strong> <!-- "Admin:" -->
+  <%= @user.admin %>
+</p>
+
+<p>
+  <strong><%= t('.orders') %></strong> <!-- "Orders:" -->
+  <table>
+    <thead>
+      <tr>
+        <th><%= t('.order_date') %></th> <!-- "Order Date" -->
+        <th><%= t('.pickup_date') %></th> <!-- "Pickup Date" -->
+        <th><%= t('.amount_due') %></th> <!-- "Amount Due" -->
+        <th><%= t('.order_status') %></th> <!-- "Order Status" -->
+        <th><%= t('.cancel_reason') %></th> <!-- "Cancel Reason" -->
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render @user.orders %>
+    </tbody>
+  </table>
+</p>
+
+<%= link_to t('.edit'), edit_user_path(@user) %> | <!-- "Edit"  -->
+<%= link_to t('.back'), search_users_path %> <!-- "Back" -->

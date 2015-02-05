@@ -1,0 +1,36 @@
+<div id="shopping_cart_products">
+  <strong><%= label_tag :order_products, "Products Ordered" %></strong><br>
+  <table>
+    <thead>
+      <tr>
+        <th>Product ($/unit)</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% product_total = 0.00 %>
+      <% session[:shopping_cart].each_index do |index| %>
+        <% product = Product.find(session[:shopping_cart][index][:product_id]) %>
+        <% quantity = session[:shopping_cart][index][:quantity] %>
+        <% product_total = product_total + (product.price * quantity) %>
+        <div id="shopping_cart_product">
+          <tr>
+            <td><%= product.name_with_unit_price %></td>
+            <td><%= quantity %></td>
+            <td><%= (product.price * quantity) %></td>
+            <td><%= link_to 'Remove', remove_from_cart_product_path(product, index: index) %></td>
+          </tr>
+        </div>
+      <% end %>
+    </tbody>
+    </table><br>
+  <table>
+    <tbody>
+      <tr><td>Product Total:</td><td><%= number_to_currency(product_total) %></td></tr>
+      <tr><td>Tax:</td><td><%= number_to_currency(product_total * 0.055) %></td></tr>
+      <tr><td>Amount Due:</td><td><%= number_to_currency(product_total * 1.055) %></td></tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,38 @@
+<h1><%= t('.title') %></h1>  <!-- "User Search" -->
+<%= form_tag search_users_path do %>
+  <div class="field">
+    <%= label_tag :email, t('.user_email') %> <!-- "User email:" -->
+    <%= text_field_tag :email %>
+  </div>
+  <div class="actions">
+    <%= submit_tag t('.search') %> <!-- "Search" -->
+  </div>
+  <br>
+  <%= link_to t('.new_user'), new_user_path %> <!-- "New User" -->
+  <br>
+  <h2><%= t('.admin_list') %></h2> <!-- "Admin User Listing" -->
+  <table>
+    <thead>
+      <tr>
+        <th><%= t('.email') %></th> <!-- "Email" -->
+        <th><%= t('.name') %></th> <!-- "Name" -->
+        <th><%= t('.active') %></th> <!-- "Active" -->
+        <th><%= t('.admin') %></th> <!-- "Admin" -->
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.email %></td>
+          <td><%= user.name %></td>
+          <td><%= user.active %></td>
+          <td><%= user.admin %></td>
+          <td><%= link_to t('.show'), user %></td> <!-- "Show" -->
+          <td><%= link_to t('.edit'), edit_user_path(user) %></td> <!-- "Edit" -->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

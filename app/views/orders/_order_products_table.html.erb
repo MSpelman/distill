@@ -1,0 +1,20 @@
+<table>
+  <thead>
+    <tr>
+      <th><%= t('.product') %></th> <!-- "Product ($/unit)" -->
+      <th><%= t('.quantity') %></th> <!-- "Quantity" -->
+      <th><%= t('.price') %></th> <!-- "Price" -->
+    </tr>
+  </thead>
+  <tbody>
+    <%= render @order.order_products %>
+  </tbody>
+</table><br>
+<% totals = @order.calculate_totals %>
+<table>
+  <tbody>
+    <tr><td><%= t('.product_total') %></td><td><%= number_to_currency(totals[:product_total]) %></td></tr> <!-- "Product Total:" -->
+    <tr><td><%= t('.tax') %></td><td><%= number_to_currency(totals[:tax]) %></td></tr> <!-- "Tax:" -->
+    <tr><td><%= t('.amount_due') %></td><td><%= number_to_currency(totals[:amount_due]) %></td></tr> <!-- "Amount Due:" -->
+   </tbody>
+</table>

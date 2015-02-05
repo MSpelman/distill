@@ -1,0 +1,43 @@
+<p>
+  <strong><%= t('.user') %></strong> <!-- "User:" -->
+  <%= @order.user.name_and_email unless @order.user.nil? %>
+</p>
+
+<p>
+  <strong><%= t('.order_date') %></strong> <!-- "Order Date:" -->
+  <%= @order.order_date %>
+</p>
+
+<p>
+  <strong><%= t('.pickup_date') %></strong> <!-- "Pickup Date:" -->
+  <%= @order.pickup_date %>
+</p>
+
+<p>
+  <strong><%= t('.order_status') %></strong> <!-- "Order Status:" -->
+  <%= @order.order_status.name unless @order.order_status.nil? %>
+</p>
+
+<p>
+  <strong><%= t('.cancel_reason') %></strong> <!-- "Cancel Reason:" -->
+  <%= @order.cancel_reason.name unless @order.cancel_reason.nil? %>
+</p>
+
+<p>
+  <strong><%= t('.products_ordered') %></strong> <!-- "Products Ordered:" -->
+  <%= render 'order_products_table' %>
+</p>
+
+<%= link_to(t('.edit'), edit_order_path(@order)) if edit_allowed? %> <!-- "Edit" -->
+<% if edit_allowed? %> | <% end %>
+<% if session[:showing_user] %>
+  <%= link_to t('.back'), @order.user %> <!-- "Back" -->
+<% else %>
+  <%= link_to t('.back'), orders_path %> <!-- "Back" -->
+<% end %>
+<% if fill_allowed? %> | <% end %>
+<%= link_to(t('.fill_order'), fill_order_path(@order)) if fill_allowed? %> <!-- "Fill Order" -->
+<% if pickup_allowed? %> | <% end %>
+<%= link_to(t('.pickup_order'), pickup_order_path(@order)) if pickup_allowed? %> <!-- "Pickup Order" -->
+<% if edit_allowed? %> | <% end %>
+<%= link_to(t('.cancel_order'), cancel_order_path(@order), data: { confirm: t('.are_you_sure') }) if edit_allowed? %> <!-- "Cancel Order", "Are you sure you want to cancel this Order?" -->

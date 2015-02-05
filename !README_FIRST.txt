@@ -1,0 +1,7 @@
+The specification for this project was to create a website for a FICTIONAL distillery. I am using the project to practice my Ruby, Rails, HTML, CSS, and JavaScript programming skills.  It is not, and should not, ever be used in a production setting.
+
+As mentioned above, the distillery referenced in the project is fictional. No attempt is being made to produce or distribute distilled spirits. Similarity in any of the names to an actual distillery or product is purely coincidental.
+
+In most countries, including the United States, it is illegal to distill alcoholic spirits without a license. In other countries it is never legal. Any information about the production of spirits is purely for educational purposes.  This information is not intended to be a step by step guide for the production of alcoholic spirits and may be inaccurate. It is not intended to encourage people to break the laws that apply to them.
+
+The majority of the programming in this project is either completely original or was created using Rails generators.  However, a small portion was inspired by the Blog project outlined in Beginning Rails 4 (3rd ed) authored by Adam Gable, et al. (Apress, 2013).  This project is also publicly posted on GitHub.

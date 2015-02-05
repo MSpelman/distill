@@ -1,0 +1,42 @@
+<h1><%= t('.title') %></h1>  <!-- "Listing Orders" -->
+
+<table>
+  <thead>
+    <tr>
+      <% if admin_user? %>
+        <th><%= t('.user') %></th> <!-- "User" -->
+      <% end %>
+      <th><%= t('.order_date') %></th> <!-- "Order Date" -->
+      <th><%= t('.pickup_date') %></th> <!-- "Pickup Date" -->
+      <th><%= t('.amount_due') %></th> <!-- "Amount Due" -->
+      <th><%= t('.order_status') %></th> <!-- "Order Status" -->
+      <th><%= t('.cancel_reason') %></th> <!-- "Cancel Reason" -->
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order| %>
+      <% totals = order.calculate_totals %>
+      <tr>
+        <% if admin_user? %>
+          <td><%= order.user.name_and_email unless order.user.nil? %></td>
+        <% end %>
+        <td><%= order.order_date %></td>
+        <td><%= order.pickup_date %></td>
+        <td><%= number_to_currency(totals[:amount_due]) %></td>
+        <td><%= order.order_status.name unless order.order_status.nil? %></td>
+        <td><%= order.cancel_reason.name unless order.cancel_reason.nil? %></td>
+        <td><%= link_to t('.show'), order %></td> <!-- "Show" -->
+        <td><%= link_to(t('.edit'), edit_order_path(order)) if edit_allowed?(order) %></td> <!-- "Edit" -->
+        <td><%= link_to(t('.fill'), fill_order_path(order)) if fill_allowed?(order) %></td> <!-- "Fill" -->
+        <td><%= link_to(t('.pickup'), pickup_order_path(order)) if pickup_allowed?(order) %></td> <!-- "Pickup" -->
+        <td><%= link_to(t('.cancel'), cancel_order_path(order), data: { confirm: t('.are_you_sure') }) if edit_allowed?(order) %></td> <!-- "Cancel Order", "Are you sure you want to cancel this Order?" -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>

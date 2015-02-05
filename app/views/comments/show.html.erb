@@ -1,0 +1,41 @@
+<p>
+  <strong><%= t('.product') %></strong> <!-- "Product:" -->
+  <%= @product.name_with_unit_price %>
+</p>
+
+<p>
+  <strong><%= t('.rating') %></strong> <!-- "Rating:" -->
+  <%= @comment.rating %>
+</p>
+
+<p>
+  <strong><%= t('.summary') %></strong> <!-- "Summary:" -->
+  <%= @comment.summary %>
+</p>
+
+<p>
+  <strong><%= t('.detail') %></strong> <!-- "Detail:" -->
+  <%= @comment.detail %>
+</p>
+
+<% if admin_user? %>
+<p>
+  <strong><%= t('.user') %></strong> <!-- "User:" -->
+  <%= @comment.user.name_and_email %>
+</p>
+<% end %>
+
+<% if session[:comments_index] %>
+  <%= link_to t('.back'), product_comments_path('#') %> <!-- "Back" -->
+<% else %>
+  <%= link_to t('.back'), @product %> <!-- "Back" -->
+<% end %>
+<% if approve_allowed? %>
+  | <%= link_to t('.approve'), approve_product_comment_path(@product, @comment) %> <!-- "Approve" -->
+<% end %>
+<% if edit_comment_allowed? %>
+  | <%= link_to t('.edit'), edit_product_comment_path(@product, @comment) %> <!-- "Edit" -->
+<% end %>
+<% if delete_comment_allowed? %>
+  | <%= link_to t('.delete'), [@product, @comment], method: :delete, data: { confirm: 'Are you sure?' }  %> <!-- "Delete" -->
+<% end %>

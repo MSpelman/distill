@@ -1,0 +1,26 @@
+<%= form_for([@order, @order_product]) do |f| %>
+  <% if @order_product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@order_product.errors.count, "error") %> prohibited this order_product from being saved:</h2>
+
+      <ul>
+      <% @order_product.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :product_id, "Product for Order" %><br>
+    <%= collection_select(:order_product, :product_id, Product.active_only, :id, :name_with_unit_price, {prompt: 'Select Product'}) %>
+  </div>
+  <div class="field">
+    <%= f.label :quantity %><br>
+    <%= f.number_field :quantity %>
+  </div>
+
+  <div class="actions">
+    <%= submit_with_cancel_order_products(f) %>
+  </div>
+<% end %>

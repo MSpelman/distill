@@ -1,0 +1,345 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+#
+#
+# All the text strings related to ActionPack are grouped together under
+# the controller name; e.g. users.  Translations for /views/layouts under application
+en:
+  application:
+    access_denied: "You must login before using this option*"
+    admin_access_denied: "You must login as an administrator before using this functionality*"
+    access_is_denied: "Established users cannot use this option*"
+    cancel: "Cancel*"
+    or: "or*"
+    current_user: "Current User:*"
+    logout: "Logout*"
+    home: "Home*"
+    about: "About Us*"
+    events: "Events/News*"
+    contact: "Contact Us*"
+    process: "Process*"
+    products: "Products*"
+    orders: "Orders*"
+    users: "Users*"
+    cart: "Cart*"
+    login: "Login*"
+    edit_profile: "Edit Profile*"
+    title: "Spirit of the North Distillery*"
+    root_link: "Spirit of the North*"
+    footer: "Sprit of the North Distillery, Copyright 2014*"
+    no_permission: "You do not have permission to access this feature.*"
+    comments: "Comments*"
+  comments:
+    create: "Comment was successfully created.*"
+    update: "Comment was successfully updated.*"
+    approve: "Comment was successfully approved.*"
+    approve_error: "Error approving comment.*"
+    comment:
+      show_detail: "Show Detail*"
+      edit: "Edit*"
+      delete: "Delete*"
+    form:
+      product: "Product:*"
+      disclaimer: "All comments are subject to approval by this website's administrators.  New or updated comments will not display until validated.*"
+    edit:
+      title: "Editing Comment*"
+    index:
+      title: "Listing Comments*"
+      product: "Product*"
+      rating: "Rating*"
+      summary: "Summary*"
+      detail: "Detail*"
+      active: "Active*"
+      user: "User*"
+      show: "Show*"
+      approve: "Approve*"
+      delete: "Delete*"
+    new:
+      title: "New Comment*"
+    show:
+      product: "Product:*"
+      rating: "Rating:*"
+      summary: "Summary:*"
+      detail: "Detail:*"
+      user: "User:*"
+      back: "Back*"
+      approve: "Approve*"
+      edit: "Edit*"
+      delete: "Delete*"
+  order_products:
+    create: "Product was successfully added to Order.*"
+    update: "Product was successfully updated on Order.*"
+    all_products_removed: "All products removed; Order canceled*"
+    plus_tax: "+ tax*"
+    index:
+      title: "Listing Order Products*"
+      product: "Product ($/unit)*"
+      quantity: "Quantity*"
+      price: "Price*"
+      edit: "Edit*"
+      destroy: "Destroy*"
+      are_you_sure: "Are you sure?*"
+      new: "New Order Product*"
+  orders:
+    must_log_in: "You must log in before placing an order.*"
+    create: "Your order was successfully submitted!*"
+    update: "Order was successfully updated.*"
+    cancel: "Order was successfully canceled.*"
+    cancel_error: "Error canceling order.*"
+    fill: "Order was successfully filled.*"
+    fill_error: "Error filling order.*"
+    pickup: "Order was successfully picked up.*"
+    pickup_error: "Error picking up order.*"
+    edit_order_denied: "You do not have permission to access this feature.*"
+    check_out: "Check Out*"
+    return: "Return*"
+    date_must_be: " - The pickup date must be*"
+    or_later: " or later.*"
+    pickup_date_error: "Pickup Date Error*"
+    order_products_table:
+      product: "Product ($/unit)*"
+      quantity: "Quantity*"
+      price: "Price*"
+      product_total: "Product Total:*"
+      tax: "Tax:*"
+      amount_due: "Amount Due:*"
+    order:
+      show: "Show*"
+      edit: "Edit*"
+      fill: "Fill*"
+      pickup: "Pickup*"
+      cancel: "Cancel Order*"
+      are_you_sure: "Are you sure you want to cancel this Order?*"
+    edit:
+      title: "Editing Order*"
+      user: "User:*"
+      products_ordered: "Products Ordered*"
+      product: "Product ($/unit)*"
+      quantity: "Quantity*"
+      price: "Price*"
+      remove: "Remove*"
+      are_you_sure: "Are you sure?*"
+      product_total: "Product Total:*"
+      tax: "Tax:*"
+      amount_due: "Amount Due:*"
+      fill_order: "Fill Order*"
+      pickup_order: "Pickup Order*"
+      cancel_order: "Cancel Order*"
+      cancel_are_you_sure: "Are you sure you want to cancel this Order?*"
+    index:
+      title: "Listing Orders*"
+      user: "User*"
+      order_date: "Order Date*"
+      pickup_date: "Pickup Date*"
+      amount_due: "Amount Due*"
+      order_status: "Order Status*"
+      cancel_reason: "Cancel Reason*"
+      show: "Show*"
+      edit: "Edit*"
+      fill: "Fill*"
+      pickup: "Pickup*"
+      cancel: "Cancel Order*"
+      are_you_sure: "Are you sure you want to cancel this Order?*"
+    new:
+      title: "New Order*"
+      user: "User:*"
+      products_ordered: "Products Ordered*"
+      product: "Product ($/unit)*"
+      quantity: "Quantity*"
+      price: "Price*"
+      remove: "Remove*"
+      product_total: "Product Total:*"
+      tax: "Tax:*"
+      amount_due: "Amount Due:*"
+    show:
+      user: "User:*"
+      order_date: "Order Date:*"
+      pickup_date: "Pickup Date:*"
+      order_status: "Order Status:*"
+      cancel_reason: "Cancel Reason:*"
+      products_ordered: "Products Ordered:*"
+      edit: "Edit*"
+      back: "Back*"
+      fill_order: "Fill Order*"
+      pickup_order: "Pickup Order*"
+      cancel_order: "Cancel Order*"
+      are_you_sure: "Are you sure you want to cancel this Order?*"
+  products:
+    create: "Product was successfully created.*"
+    update: "Product was successfully updated.*"
+    no_ratings: "No Ratings*"
+    reviews: "reviews*"
+    form:
+      select_type: "Select Type*"
+    edit:
+      title: "Editing Product*"
+    index:
+      title: "Listing Products*"
+      name: "Name*"
+      price: "Price*"
+      product_type: "Product Type*"
+      rating: "Rating*"
+      description: "Description*"
+      release_date: "Release Date*"
+      active: "Active?*"
+      edit: "Edit*"
+      new_product: "New Product*"
+    new:
+      title: "New Product*"
+    show:
+      name: "Name:*"
+      price: "Price:*"
+      product_type: "Product Type:*"
+      rating: "Rating:*"
+      description: "Description:*"
+      release_date: "Release Date:*"
+      active: "Active:*"
+      quantity: "Quantity*"
+      add_to_cart: "Add to Cart*"
+      rating_header: "Rating(1-5)*"
+      summary: "Summary*"
+      add_comment: "Add Comment*"
+      edit: "Edit*"
+      back: "Back*"
+  sessions:
+    successful_login: "Log in successful!*"
+    incorrect_login: "Incorrect login and/or password*"
+    successful_logout: "You have successfully logged out.*"
+    please_log_in: "Please Log In*"
+    user_email: "User email*"
+    password: "Password*"
+    self_create_profile: "Create New User Profile*"
+  users:
+    admin_create: "User was successfully created.*"
+    self_create: "User profile successfully created!*"
+    admin_update: "User was successfully updated.*"
+    self_update: "Your profile was successfully updated.*"
+    no_email: "Please enter an email address to search on.*"
+    no_user: "No user has this email address.*"
+    edit_self:
+      title: "Editing User Profile*"
+    edit:
+      title: "Editing User*"
+    index:
+      title: "Listing Users*"
+      email: "Email*"
+      name: "Name*"
+      active: "Active*"
+      admin: "Admin*"
+      show: "Show*"
+      edit: "Edit*"
+      new_user: "New User*"
+    new_self:
+      title: "New User*"
+    new:
+      title: "New User*"
+    search:
+      title: "User Search*"
+      user_email: "User email:*"
+      search: "Search*"
+      new_user: "New User*"
+      admin_list: "Admin User Listing*"
+      email: "Email*"
+      name: "Name*"
+      active: "Active*"
+      admin: "Admin*"
+      show: "Show*"
+      edit: "Edit*"
+    show:
+      email: "Email:*"
+      name: "Name:*"
+      address_1: "Address 1:*"
+      address_2: "Address 2:*"
+      apt_number: "Apt number:*"
+      city: "City:*"
+      state: "State:*"
+      zip_code: "Zip code:*"
+      newsletter: "Newsletter:*"
+      active: "Active:*"
+      admin: "Admin:*"
+      orders: "Orders:*"
+      order_date: "Order Date*"
+      pickup_date: "Pickup Date*"
+      amount_due: "Amount Due*"
+      order_status: "Order Status*"
+      cancel_reason: "Cancel Reason*"
+      edit: "Edit*"
+      back: "Back*"
+  activerecord:
+    models:
+      cancel_reason: "Cancel Reason*"
+      comment: "Comment*"
+      order_product: "Order Product*"
+      order_status: "Order Status*"
+      order: "Order*"
+      product: "Product*"
+      user: "User*"
+    attributes:
+      comment:
+        summary: "Summary*"
+        detail: "Detail*"
+        rating: "Rating*"
+      order_product:
+        order_id: "Order*"
+        product_id: "Product*"
+        quantity: "Quantity*"
+        unit_price: "Unit Price*"
+      order:
+        order_status_id: "Order Status*"
+        pickup_date: "Pickup Date*"
+        order_date: "Order Date*"
+        cancel_reason_id: "Cancel Reason*"
+        user_id: "User*"
+        product_total: "Product Total*"
+        tax: "Tax*"
+        amount_due: "Amount Due*"
+      product:
+        name: "Name*"
+        price: "Price*"
+        product_type_id: "Product Type*"
+        description: "Description*"
+        release_date: "Release Date*"
+        active: "Active*"
+      user:
+        email: "Email*"
+        password: "Password*"
+        password_confirmation: "Password Confirmation*"
+        name: "Name*"
+        address_1: "Address Line 1*"
+        address_2: "Address Line 2*"
+        apt_number: "Apartment Number*"
+        city: "City*"
+        state: "State*"
+        zip_code: "Zip Code*"
+        newsletter: "Signed up for email newsletter?*"
+        active: "Is the user account active?*"
+        admin: "Administrative user?*"
+    errors:
+      messages:
+        blank: "can't be blank*"
+        invalid: "is invalid*"
+        too_short: "is too short (minimum is %{count} characters)*"
+        too_long: "is too long (maximum is %{count} characters)*"
+        taken: "has already been taken*"
+        confirmation: "doesn't match* %{attribute}"
+      template:
+        header: " prohibited this record from being saved*"
+        body: "There were problems with the following fields:*"

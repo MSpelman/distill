@@ -1,0 +1,40 @@
+<%= form_for([@product, @comment]) do |f| %>
+  <% if @comment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@comment.errors.count, "error") %> <%= t('activerecord.errors.template.header') %></h2> <!-- " prohibited this record from being saved" -->
+
+      <ul>
+      <% @comment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div id="product_info">
+    <strong><%= t('.product') %> <!-- "Product:" --> 
+    <%= @product.name %>
+    </strong>
+  </div>
+
+  <div id="disclaimer">
+    <%= t('.disclaimer') %> <!-- "All comments are subject to approval by this website's administrators.  New or updated comments will not display until validated." -->
+  </div>
+
+  <div class="field">
+    <%= f.label :summary %><br>
+    <%= f.text_field :summary %>
+  </div>
+  <div class="field">
+    <%= f.label :detail %><br>
+    <%= f.text_area :detail %>
+  </div>
+  <div class="field">
+    <%= f.label :rating %><br>
+    <%= f.number_field :rating, in: 1..5 %>
+  </div>
+
+  <div class="actions">
+    <%= submit_with_cancel_comments(f) %>
+  </div>
+<% end %>

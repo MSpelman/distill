@@ -1,0 +1,43 @@
+<%= form_for(@order) do |f| %>
+
+  <% if @order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@order.errors.count, "error") %> <%= t('activerecord.errors.template.header') %></h2> <!-- " prohibited this record from being saved" -->
+
+      <ul>
+      <% @order.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% unless @order.user.nil? %>
+    <div id="user_info">
+      <strong>User: 
+      <%= @order.user.name_and_email %>
+      </strong>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :pickup_date %><br>
+    <%= f.date_select(:pickup_date, start_year: Date.today.year, end_year: Date.today.year+2, default: @order.earliest_pickup_date) %>
+  </div>
+
+  <div class="actions">
+    <% if @new %>
+      <%= check_out_or_return(f) %>
+    <% else %>
+      <%= submit_or_return_to_orders_index(f) %>
+    <% end %>
+  </div>
+
+  <div id="products_in_cart"
+    <% if @new %>
+      <%= render 'new_form' %>
+    <% else %>
+      <%= render 'edit_form' %>
+    <% end %>
+  </div>
+<% end %>

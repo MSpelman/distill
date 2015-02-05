@@ -1,0 +1,18 @@
+<h2><%= t('sessions.please_log_in') %></h2>  <!-- "Please Log In" -->
+
+<%= form_tag session_path do %>
+  <div class="field">
+    <%= label_tag :email, t('sessions.user_email') %><br />  <!-- "User email" -->
+    <%= text_field_tag :email %>
+  </div>
+  <div class="field">
+    <%= label_tag :password, t('sessions.password') %><br />  <!-- "Password" -->
+    <%= password_field_tag :password %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag t('application.login') %>  <!-- "Login" -->
+  </div>
+
+  <%= link_to t('sessions.self_create_profile'), users_new_self_path %>  <!-- "Create New User Profile" -->
+<% end %>

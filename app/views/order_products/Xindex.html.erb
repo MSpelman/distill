@@ -1,0 +1,29 @@
+<h1><%= t('.title') %></h1> <!-- "Listing Order Products" -->
+
+<table>
+  <thead>
+    <tr>
+      <th><%= t('.product') %></th> <!-- "Product ($/unit)" -->
+      <th><%= t('.quantity') %></th> <!-- "Quantity" -->
+      <th><%= t('.price') %></th> <!-- "Price" -->
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @order_products.each do |order_product| %>
+      <tr>
+        <td><%= order_product.product_name_with_unit_price %></td>
+        <td><%= order_product.quantity %></td>
+        <td><%= order_product.unit_price_x_quantity %></td>
+        <td><%= link_to t('.edit'), edit_order_order_product_path(@order, order_product) %></td> <!-- "Edit -->
+        <td><%= link_to t('.destroy'), [@order, order_product], method: :delete, remote: true, data: { confirm: t('.are_you_sure') } %></td> <!-- "Destroy", "Are you sure?" -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to t('.new'), new_order_order_product_path(@order) %> <!-- "New Order Product" -->

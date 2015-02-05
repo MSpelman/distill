@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+whiskey:
+  name: "Tawny Cougar Whiskey"
+  price: 29.99
+  product_type_id: 142464028
+  description: "Test description for my whiskey product"
+  release_date: 2015-01-01
+  active: true
+
+future:
+  name: "Future Whiskey"
+  price: 39.99
+  product_type_id: 142464028
+  description: "Test description for my un-released whiskey product"
+  release_date: 2015-12-31
+  active: true
+
+tshirt:
+  name: "Spirit of the North T-Shirt"
+  price: 19.99
+  product_type_id: 142464029
+  description: "Tee shirt with the Spirit of the North logo on it"
+  release_date:
+  active: true
+
+inactive:
+  name: "Old Grizzly Whiskey"
+  price: 39.99
+  product_type_id: 142464028
+  description: "Test description for my inactive product"
+  release_date:
+  active: false

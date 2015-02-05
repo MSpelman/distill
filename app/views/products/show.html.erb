@@ -1,0 +1,72 @@
+<p>
+  <strong><%= t('.name') %></strong> <!-- "Name:" -->
+  <%= @product.name %>
+</p>
+
+<p>
+  <strong><%= t('.price') %></strong> <!-- "Price:" -->
+  <%= @product.price %>
+</p>
+
+<p>
+  <strong><%= t('.product_type') %></strong> <!-- "Product Type:" -->
+  <%= @product.product_type.name %>
+</p>
+
+<p>
+  <strong><%= t('.rating') %></strong> <!-- "Rating:" -->
+  <%= @product.average_rating %>
+</p>
+
+<p>
+  <strong><%= t('.description') %></strong> <!-- "Description:" -->
+  <%= @product.description %>
+</p>
+
+<p>
+  <strong><%= t('.release_date') %></strong> <!-- "Release Date:" -->
+  <%= @product.release_date %>
+</p>
+
+<% if admin_user? %>
+  <p>
+    <strong><%= t('.active') %></strong> <!-- "Active:" -->
+    <%= @product.active %>
+  </p>
+<% end %>
+
+<%= form_tag product_path do %>
+  <p>
+    <%= label_tag :quantity, t('.quantity') %> 
+    <%= number_field_tag :quantity, 1, in: 1...25 %>
+    <%= submit_tag(t('.add_to_cart')) %> <!-- "Add to Cart" -->
+  </p>
+<% end %>
+
+<p>
+  <div id="comments">
+    <% unless @product.comments.active_only.first.nil? %>
+      <table>
+        <thead>
+          <tr>
+            <th><%= t('.rating_header') %></th> <!-- "Rating (1 - 5)" -->
+            <th><%= t('.summary') %></th> <!-- "Summary" -->
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <%= render @product.comments.active_only.order('updated_at DESC') %>
+          </tr>
+        </tbody>
+      </table>
+    <% end %>
+    <%= link_to(t('.add_comment'), new_product_comment_path(@product)) if new_comment_allowed? %> <!-- "Add Comment" -->
+  </div>
+</p>
+
+<%= link_to(t('.edit'), edit_product_path(@product)) if admin_user? %> <!-- "Edit" -->
+<%= " | " if admin_user? %>
+<%= link_to t('.back'), products_path %> <!-- "Back" -->

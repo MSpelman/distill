@@ -1,0 +1,7 @@
+<%= div_for order_product do %>
+  <tr>
+    <td><%= order_product.product_name_with_unit_price %></td>
+    <td><%= order_product.quantity %></td>
+    <td><%= order_product.unit_price_x_quantity %></td>
+  </tr>
+<% end %>

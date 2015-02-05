@@ -1,0 +1,37 @@
+<div id="order_products">
+  <strong><%= label_tag :order_products, "Products Ordered" %></strong><br>
+  <table>
+    <thead>
+      <tr>
+        <th>Product ($/unit)</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% product_total = 0.00 %>
+      <% @order.order_products.each do |order_product| %>
+        <% product = order_product.product %>
+        <% product_total = product_total + (product.price * order_product.quantity) %>
+        <%= div_for order_product do %>
+          <tr>
+            <td><%= product.name_with_unit_price %></td>
+            <td><%= order_product.quantity %></td>
+            <td><%= order_product.unit_price_x_quantity %></td>
+            <td><%= link_to 'Edit', edit_order_order_product_path(@order, order_product) %></td>
+            <td><%= link_to 'Destroy', [@order, order_product], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+    </table><br>
+  <table>
+    <tbody>
+      <tr><td>Product Total:</td><td><%= number_to_currency(product_total) %></td></tr>
+      <tr><td>Tax:</td><td><%= number_to_currency(product_total * 0.055) %></td></tr>
+      <tr><td>Amount Due:</td><td><%= number_to_currency(product_total * 1.055) %></td></tr>
+    </tbody>
+  </table>
+</div>

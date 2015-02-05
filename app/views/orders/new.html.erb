@@ -1,0 +1,70 @@
+<h1><%= t('.title') %></h1>  <!-- "New Order" -->
+
+<%= form_for(@order) do |f| %>
+
+  <% if @order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@order.errors.count, "error") %> <%= t('activerecord.errors.template.header') %></h2> <!-- " prohibited this record from being saved" -->
+
+      <ul>
+      <% @order.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% unless @order.user.nil? %>
+    <div id="user_info">
+      <strong><%= t('.user') %> <!-- "User:" --> 
+      <%= @order.user.name_and_email %>
+      </strong>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :pickup_date %><br>
+    <%= f.date_select(:pickup_date, start_year: Date.today.year, end_year: Date.today.year+2, default: @order.earliest_pickup_date) %>
+  </div>
+
+  <div id="shopping_cart_products">
+    <strong><%= label_tag :order_products, t('.products_ordered') %></strong><br> <!-- "Products Ordered" -->
+    <table>
+      <thead>
+        <tr>
+          <th><%= t('.product') %></th> <!-- "Product ($/unit)" -->
+          <th><%= t('.quantity') %></th> <!-- "Quantity" -->
+          <th><%= t('.price') %></th> <!-- "Price" -->
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% product_total = 0.00 %>
+        <% session[:shopping_cart].each_index do |index| %>
+          <% product = Product.find(session[:shopping_cart][index][:product_id]) %>
+          <% quantity = session[:shopping_cart][index][:quantity] %>
+          <% product_total = product_total + (product.price * quantity) %>
+          <div id="shopping_cart_product">
+            <tr>
+              <td><%= product.name_with_unit_price %></td>
+              <td><%= quantity %></td>
+              <td><%= (product.price * quantity) %></td>
+              <td><%= link_to t('.remove'), products_remove_from_cart_path(index: index) %></td> <!-- "Remove" -->
+            </tr>
+          </div>
+        <% end %>
+      </tbody>
+      </table><br>
+    <table>
+      <tbody>
+        <tr><td><%= t('.product_total') %></td><td><%= number_to_currency(product_total) %></td></tr> <!-- "Product Total:" -->
+        <tr><td><%= t('.tax') %></td><td><%= number_to_currency(product_total * 0.055) %></td></tr> <!-- "Tax:" -->
+        <tr><td><%= t('.amount_due') %></td><td><%= number_to_currency(product_total * 1.055) %></td></tr> <!-- "Amount Due:" -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="actions">
+    <%= check_out_or_return(f) %>
+  </div>
+<% end %>

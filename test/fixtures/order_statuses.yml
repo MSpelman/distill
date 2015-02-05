@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+new:
+  name: 'New'
+
+filled:
+  name: 'Filled'
+
+picked_up:
+  name: 'Picked-up'
+
+canceled:
+  name: 'Canceled'

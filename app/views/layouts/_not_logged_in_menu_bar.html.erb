@@ -1,0 +1,10 @@
+<%= link_to t('application.login'), login_path %> <!-- "Login" -->
+<br>
+<%= link_to t('application.home'), root_path %> | <!-- "Home" -->
+<%= link_to t('application.about'), about_page_path %> | <!-- "About Us"  -->
+<%= link_to t('application.events'), events_page_path %> | <!-- "Events/News"  -->
+<%= link_to t('application.contact'), contact_page_path %> | <!-- "Contact Us"  -->
+<%= link_to t('application.process'), whiskey_process_page_path %> | <!-- "Process"  -->
+<%= link_to t('application.products'), products_path %> <!-- "Products"  -->
+<% unless ((session[:shopping_cart].nil?)||(session[:shopping_cart].empty?)) %> | <% end %>
+<%= link_to(t('application.cart'), new_order_path) unless ((session[:shopping_cart].nil?)||(session[:shopping_cart].empty?)) %> <!-- "Cart"  -->

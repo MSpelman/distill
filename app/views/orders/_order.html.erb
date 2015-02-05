@@ -1,0 +1,15 @@
+<%= div_for order do %>
+  <% totals = order.calculate_totals %>
+  <tr>
+    <td><%= order.order_date %></td>
+    <td><%= order.pickup_date %></td>
+    <td><%= number_to_currency(totals[:amount_due]) %></td>
+    <td><%= order.order_status.name unless order.order_status.nil? %></td>
+    <td><%= order.cancel_reason.name unless order.cancel_reason.nil? %></td>
+    <td><%= link_to t('.show'), order %></td> <!-- "Show" -->
+    <td><%= link_to(t('.edit'), edit_order_path(order)) if edit_allowed?(order) %></td> <!-- "Edit" -->
+    <td><%= link_to(t('.fill'), fill_order_path(order)) if fill_allowed?(order) %></td> <!-- "Fill" -->
+    <td><%= link_to(t('.pickup'), pickup_order_path(order)) if pickup_allowed?(order) %></td> <!-- "Pickup" -->
+    <td><%= link_to(t('.cancel'), cancel_order_path(order), data: { confirm: t('.are_you_sure') }) if edit_allowed?(order) %></td> <!-- "Cancel Order", "Are you sure you want to cancel this Order?" -->
+  </tr>
+<% end %>
