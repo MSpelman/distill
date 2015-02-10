@@ -4,4 +4,4 @@ As mentioned above, the distillery referenced in the project is fictional. No at
 
 In most countries, including the United States, it is illegal to distill alcoholic spirits without a license. In other countries it is never legal. Any information about the production of spirits is purely for educational purposes.  This information is not intended to be a step by step guide for the production of alcoholic spirits and may be inaccurate. It is not intended to encourage people to break the laws that apply to them.
 
-The majority of the programming in this project is either completely original or was created using Rails generators.  However, a small portion was inspired by the Blog project outlined in Beginning Rails 4 (3rd ed) authored by Adam Gable, et al. (Apress, 2013).  This project is also publicly posted on GitHub.
+The majority of the programming in this project is either completely original or was created using Rails generators.  However, a small portion was inspired by the Blog project outlined in Beginning Rails 4 (3rd ed) authored by Adam Gable, et al. (Apress, 2013).  This project is also publicly posted on GitHub (https://github.com/adamgamble/blog/).
