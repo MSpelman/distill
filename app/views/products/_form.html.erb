@@ -12,6 +12,15 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :image_file, t('.product_image') %><br> <!-- "Product Image" -->
+    <% if @product.image_file_name.nil? %>
+      <%= f.file_field(:image_file, accept: 'image/jpeg') %>
+    <% else %>
+      <%= image_tag("#{Rails.env}/products/#{@product.image_file_name}", size: "300x300", alt: @product.name) %><br />
+      <%= link_to(t('.delete_image'), delete_image_product_path(@product), data: { confirm: t('.are_you_sure') }) %> <!-- "Delete Image" "The image will immediately be deleted from the web server and this action cannot be un-done. Are you sure you want to permanently delete this image?" -->
+    <% end %>
+  </div>
+  <div class="field">
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>

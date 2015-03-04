@@ -39,15 +39,24 @@ class ProductsControllerTest < ActionController::TestCase
 
   test "should create product" do
     login_as(:admin)
+    test_image_path = Rails.root.join('test', 'images', 'test_product_image.jpg')
+    temp_file = Tempfile.new('products_controller_test', binmode: true, encoding: 'ascii-8bit')
+    File.open(test_image_path, 'rb') { |file| temp_file.write(file.read) }
+    product_image = ActionDispatch::Http::UploadedFile.new(tempfile: temp_file)
+    product_image.original_filename = 'test_product_image.jpg'  # temp_file ok up to here
     assert_difference('Product.count') do
       post :create, product: { active: true,
                                description: "Product description",
+                               image_file: product_image,
                                name: "Vixen Amber Whiskey",
                                price: 29.99,
                                product_type_id: product_types(:whiskey).id,
                                release_date: 2015-02-01 }
     end
+    product_image.close
+    temp_file.close!
     assert_redirected_to products_path
+    assert File.exist?(Rails.root.join('public', 'images', Rails.env, 'products', assigns(:product).image_file_name))
   end
 
   test "should not create product" do
@@ -90,8 +99,17 @@ class ProductsControllerTest < ActionController::TestCase
   test "should update product" do
     login_as(:admin)
     @product = products(:whiskey)
-    patch :update, id: @product.to_param, product: { price: 34.99 }
+    test_image_path = Rails.root.join('test', 'images', 'test_product_image.jpg')
+    temp_file = Tempfile.new('products_controller_test', binmode: true, encoding: 'ascii-8bit')
+    File.open(test_image_path, 'rb') { |file| temp_file.write(file.read) }
+    product_image = ActionDispatch::Http::UploadedFile.new(tempfile: temp_file)
+    product_image.original_filename = 'test_product_image.jpg'
+    patch :update, id: @product.to_param, product: { price: 34.99,
+                                                     image_file: product_image }
+    product_image.close
+    temp_file.close!
     assert_redirected_to products_path
+    assert File.exist?(Rails.root.join('public', 'images', Rails.env, 'products', assigns(:product).image_file_name))
   end
 
   test "should not update product" do
@@ -124,6 +142,33 @@ class ProductsControllerTest < ActionController::TestCase
       get :remove_from_cart, index: 0
     end
     assert_redirected_to products_path
+  end
+
+  test "should delete image" do
+    # Login and set @product
+    login_as(:admin)
+    @product = products(:whiskey)
+    product_id = @product.id
+    # Add image to product since fixture does not have one
+    test_image_path = Rails.root.join('test', 'images', 'test_product_image.jpg')
+    temp_file = Tempfile.new('products_controller_test', binmode: true, encoding: 'ascii-8bit')
+    File.open(test_image_path, 'rb') { |file| temp_file.write(file.read) }
+    product_image = ActionDispatch::Http::UploadedFile.new(tempfile: temp_file)
+    product_image.original_filename = 'test_product_image.jpg'
+    patch :update, id: @product.to_param, product: { image_file: product_image }
+    product_image.close
+    temp_file.close!
+    # Verify image initially exists
+    @product = Product.find(product_id)  # Make sure not using stale object
+    file_path = Rails.root.join('public', 'images', Rails.env, 'products', @product.image_file_name)
+    assert File.exist?(file_path), 'No initial file'
+    # Call the delete_image action
+    get :delete_image, id: @product.to_param
+    # Verify image deletion worked correctly
+    assert_redirected_to edit_product_path(@product)
+    assert !(File.exist?(file_path)), 'File not deleted'  # Verify image file deleted
+    @product = Product.find(product_id)  # Make sure not using stale object
+    assert_nil @product.image_file_name
   end
 
 end

@@ -20,3 +20,8 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Ignore product images related to records in my dbs
+/public/images/development/*
+/public/images/production/*
+/public/images/test/*

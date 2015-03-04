@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th></th>
       <th><%= t('.name') %></th> <!-- "Name" -->
       <th><%= t('.price') %></th> <!-- "Price" -->
       <th><%= t('.product_type') %></th> <!-- "Product Type" -->
@@ -17,6 +18,7 @@
   <tbody>
     <% @products.each do |product| %>
       <tr>
+        <td><%= image_tag("#{Rails.env}/products/#{product.image_file_name}", size: "30x30", alt: product.name) unless product.image_file_name.nil? %></td>
         <td><%= link_to product.name, product %></td>
         <td><%= product.price %></td>
         <td><%= product.product_type.name unless product.product_type.nil? %></td>

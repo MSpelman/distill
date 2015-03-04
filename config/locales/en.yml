@@ -187,7 +187,12 @@ en:
     update: "Product was successfully updated.*"
     no_ratings: "No Ratings*"
     reviews: "reviews*"
+    needs_jpeg_format: " - The file needs to be in JPEG (.jpg) format.*"
+    file_format_error: "File Format Error*"
     form:
+      product_image: "Product Image*"
+      delete_image: "Delete Image*"
+      are_you_sure: "The image will immediately be deleted from the web server and this action cannot be un-done. Are you sure you want to permanently delete this image?*"
       select_type: "Select Type*"
     edit:
       title: "Editing Product*"

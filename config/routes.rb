@@ -18,6 +18,7 @@ Distill::Application.routes.draw do
   resources :products do
     member do
       post "" => "products#add_to_cart"
+      get :delete_image
     end
     resources :comments do
       member do

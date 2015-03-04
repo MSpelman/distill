@@ -1,3 +1,9 @@
+<% unless @product.image_file_name.nil? %>
+  <p>
+    <%= image_tag("#{Rails.env}/products/#{@product.image_file_name}", size: "300x300", alt: @product.name) %>
+  </p>
+<% end %>
+
 <p>
   <strong><%= t('.name') %></strong> <!-- "Name:" -->
   <%= @product.name %>

@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :add_to_cart]
-  before_action :admin_only, only: [:new, :edit, :create, :update] 
+  before_action :set_product, only: [:show, :edit, :update, :add_to_cart, :delete_image]
+  before_action :admin_only, only: [:new, :edit, :create, :update, :delete_image] 
 
   # GET /products
   # GET /products.json
@@ -34,6 +34,8 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
+        uploaded_file = params[:product][:image_file]
+        save_file(uploaded_file) unless ((uploaded_file.nil?) || (uploaded_file == ''))
         format.html { redirect_to products_path, notice: t('products.create') }  # "Product was successfully created."
         format.json { render action: 'index', status: :created, location: @product }
       else
@@ -48,7 +50,9 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
-        format.html { redirect_to products_path , notice: t('products.update') }  # "Product was successfully updated."
+        uploaded_file = params[:product][:image_file]
+        save_file(uploaded_file) unless ((uploaded_file.nil?) || (uploaded_file == '') || (@product.image_file_name))
+        format.html { redirect_to products_path, notice: t('products.update') }  # "Product was successfully updated."
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -80,6 +84,18 @@ class ProductsController < ApplicationController
     end
   end
 
+  # GET /products/1/delete_image
+  # Action to delete the product's image file
+  def delete_image
+    file_path = Rails.root.join('public', 'images', Rails.env, 'products', @product.image_file_name)
+    File.delete(file_path)  # Delete image file from server
+    @product.update_attributes(image_file_name: nil)  # Remove reference to image from db
+    respond_to do |format|
+      format.html { redirect_to edit_product_path(@product) }
+      format.js  # Will add JavaScript to change image_tag to file_field upon deletion
+    end
+  end
+
   # DELETE /products/1
   # DELETE /products/1.json
   # Deleting a product that is associated with an order would cause data corruption
@@ -100,6 +116,15 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:product_type_id, :name, :price, :release_date, :description, :active)
+      params.require(:product).permit(:product_type_id, :name, :price, :release_date, :description, :active, :image_file)
     end
+
+    # Save uploaded file to server and store file name in product
+    def save_file(new_file)
+      file_name = "#{@product.id}-#{@product.name}.jpg"
+      file_path = Rails.root.join('public', 'images', Rails.env, 'products', file_name)
+      File.open(file_path, 'wb') { |file| file.write(new_file.read) }
+      @product.update_attributes(:image_file_name => file_name)
+    end
+
 end

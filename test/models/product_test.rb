@@ -53,6 +53,28 @@ class ProductTest < ActiveSupport::TestCase
     assert !product.save
   end
 
+  test "should not create product if image format wrong" do
+    product = Product.new
+    product.name = "Bad Image Whiskey"
+    product.price = 29.99
+    product.product_type_id = product_types(:whiskey).id
+    product.description = "Whiskey with an image file in the wrong format"
+    product.release_date = 2015-01-01
+    product.active = true
+    test_image_path = Rails.root.join('test', 'images', 'bad_product_image.png')
+    temp_file = Tempfile.new('product_test', binmode: true, encoding: 'ascii-8bit')
+    File.open(test_image_path, 'rb') { |file| temp_file.write(file.read) }
+    product_image = ActionDispatch::Http::UploadedFile.new(tempfile: temp_file)
+    product_image.original_filename = 'bad_product_image.png'
+    product.image_file = product_image
+    assert !product.valid?
+    assert product.errors.any?
+    assert_equal :"File Format Error*", product.errors.first[0]
+    assert !product.save
+    product_image.close
+    temp_file.close!
+  end
+
   test "should only return active products with active_only scope" do
     scope_products = Product.active_only
     found_products = Product.where(active: true).load
