@@ -7,6 +7,7 @@ whiskey:
   description: "Test description for my whiskey product"
   release_date: 2015-01-01
   active: true
+  quantity_in_stock: 3
 
 future:
   name: "Future Whiskey"
@@ -15,6 +16,7 @@ future:
   description: "Test description for my un-released whiskey product"
   release_date: 2015-12-31
   active: true
+  quantity_in_stock: 50
 
 tshirt:
   name: "Spirit of the North T-Shirt"
@@ -23,6 +25,7 @@ tshirt:
   description: "Tee shirt with the Spirit of the North logo on it"
   release_date:
   active: true
+  quantity_in_stock: 5
 
 inactive:
   name: "Old Grizzly Whiskey"
@@ -31,3 +34,4 @@ inactive:
   description: "Test description for my inactive product"
   release_date:
   active: false
+  quantity_in_stock: 0

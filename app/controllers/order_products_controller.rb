@@ -58,7 +58,12 @@ class OrderProductsController < ApplicationController
   # DELETE /order_products/1.json
   def destroy
     @order_product = @order.order_products.find(params[:id])
+    product = @order_product.product
+    quantity = @order_product.quantity
     @order_product.destroy
+    # Update quantity in stock for Product
+    new_quantity_in_stock = (product.quantity_in_stock + quantity)
+    product.update_attributes(quantity_in_stock: new_quantity_in_stock)
     respond_to do |format|
       if @order.order_products.empty?
         @order.update_attributes(order_status_id: 4, cancel_reason_id: 1)  # Status changed to canceled, cancel reason set to Customer

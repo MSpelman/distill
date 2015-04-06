@@ -33,6 +33,10 @@
     <%= collection_select(:product, :product_type_id, ProductType.all, :id, :name, {prompt: t('.select_type')}) %> <!-- "Select Type" -->
   </div>
   <div class="field">
+    <%= f.label :quantity_in_stock %><br>
+    <%= f.number_field :quantity_in_stock, in: 0...1000 %>
+  </div>
+  <div class="field">
     <%= f.label :description %><br>
     <%= f.text_area :description %>
   </div>

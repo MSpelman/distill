@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210233048) do
+ActiveRecord::Schema.define(version: 20150305225539) do
 
   create_table "cancel_reasons", force: true do |t|
     t.string   "name"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20150210233048) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image_file_name"
+    t.integer  "quantity_in_stock"
   end
 
   create_table "users", force: true do |t|

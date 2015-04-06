@@ -9,6 +9,7 @@ class ProductTest < ActiveSupport::TestCase
     product.product_type_id = product_types(:whiskey).id
     product.description = "Un-aged white whiskey"
     product.release_date = 2015-01-01
+    product.quantity_in_stock = 12
     product.active = true
     assert product.save
   end
@@ -27,6 +28,7 @@ class ProductTest < ActiveSupport::TestCase
     product = Product.new
     product.product_type_id = product_types(:clothing).id
     product.price = "49.99"
+    product.quantity_in_stock = 12
     assert !product.valid?
     assert product.errors[:name].any?
     assert_equal ["can't be blank*"], product.errors[:name]
@@ -37,6 +39,7 @@ class ProductTest < ActiveSupport::TestCase
     product = Product.new
     product.name = "Spirit of the North Hoodie"
     product.price = "49.99"
+    product.quantity_in_stock = 12
     assert !product.valid?
     assert product.errors[:product_type_id].any?
     assert_equal ["can't be blank*"], product.errors[:product_type_id]
@@ -47,9 +50,21 @@ class ProductTest < ActiveSupport::TestCase
     product = Product.new
     product.name = "Spirit of the North Shotglass"
     product.product_type_id = product_types(:glass).id
+    product.quantity_in_stock = 12
     assert !product.valid?
     assert product.errors[:price].any?
     assert_equal ["can't be blank*"], product.errors[:price]
+    assert !product.save
+  end
+
+  test "should not create product with no quantity in stock" do
+    product = Product.new
+    product.name = "Spirit of the North Shotglass"
+    product.product_type_id = product_types(:glass).id
+    product.price = "9.99"
+    assert !product.valid?
+    assert product.errors[:quantity_in_stock].any?
+    assert_equal ["can't be blank*"], product.errors[:quantity_in_stock]
     assert !product.save
   end
 
@@ -60,6 +75,7 @@ class ProductTest < ActiveSupport::TestCase
     product.product_type_id = product_types(:whiskey).id
     product.description = "Whiskey with an image file in the wrong format"
     product.release_date = 2015-01-01
+    product.quantity_in_stock = 12
     product.active = true
     test_image_path = Rails.root.join('test', 'images', 'bad_product_image.png')
     temp_file = Tempfile.new('product_test', binmode: true, encoding: 'ascii-8bit')

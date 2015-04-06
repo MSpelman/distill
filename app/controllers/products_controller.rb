@@ -64,10 +64,16 @@ class ProductsController < ApplicationController
   # POST /products/1
   # Adds product and its quantity to shopping cart
   def add_to_cart
-    session[:shopping_cart] = [] if (session[:shopping_cart].nil?)
-    product_hash = { product_id: @product.id, quantity: params[:quantity].to_i }
-    session[:shopping_cart] << product_hash
-    redirect_to products_path
+    desired_quantity = params[:quantity].to_i
+    if (desired_quantity > @product.quantity_in_stock)
+      redirect_to @product, notice: t('products.add_to_cart_error')  # "The quantity cannot be greater than the amount in stock."
+      return
+    else
+      session[:shopping_cart] = [] if (session[:shopping_cart].nil?)
+      product_hash = { product_id: @product.id, quantity: desired_quantity }
+      session[:shopping_cart] << product_hash
+      redirect_to products_path
+    end
   end
 
   # GET /products/remove_from_cart
@@ -116,7 +122,7 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:product_type_id, :name, :price, :release_date, :description, :active, :image_file)
+      params.require(:product).permit(:product_type_id, :name, :price, :release_date, :description, :active, :image_file, :quantity_in_stock)
     end
 
     # Save uploaded file to server and store file name in product

@@ -23,8 +23,8 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new 
-      @order = Order.new
-      @order.earliest_pickup_date = calculate_earliest_pickup_date(:create)
+    @order = Order.new
+    @order.earliest_pickup_date = calculate_earliest_pickup_date(:create)
   end
 
   # GET /orders/1/edit
@@ -40,13 +40,37 @@ class OrdersController < ApplicationController
     else
       @order = current_user.orders.new(order_params)
       @order.earliest_pickup_date = calculate_earliest_pickup_date(:create)
+      # User could have place product in cart days ago, make sure still available
+      okay = true
+      index = (session[:shopping_cart].size - 1)
+      while (index >= 0)
+        element = session[:shopping_cart][index]
+        product = Product.find(element[:product_id])
+        quantity = element[:quantity]
+        if (product.quantity_in_stock == 0)
+          okay = false if (okay)
+          session[:shopping_cart].delete_at(index)
+          # If cart empty as a result of the deletion, redirect user to product index
+          redirect_to(products_path, notice: t('orders.not_in_stock')) and return if session[:shopping_cart].empty?  # "The product(s) ordered are no longer in stock; order cannot be placed."
+        elsif (product.quantity_in_stock < quantity)
+          okay = false if (okay)
+          # Update quantity in shopping cart based on quantity available
+          new_product_hash = { product_id: product.id, quantity: product.quantity_in_stock }
+          session[:shopping_cart][index] = new_product_hash
+        end
+        index -= 1
+      end
+      redirect_to(new_order_path, notice: t('orders.please_review')) and return if (!okay)  # "One or more of the products you selected is either out of stock or not available in the desired quantity. Please review the updated order and resubmit if okay."
+      # Proceed to save order
       respond_to do |format|
         if @order.save
           @order.update_attributes(order_date: Date.today, order_status_id: 1)  # set order date to today, status to New
-          session[:shopping_cart].each do |element|  # create an order_product record for each product in the shopping cart
+          session[:shopping_cart].each do |element|  # create an order_product record for each product in the shopping cart and update quantity in stock of products
             product = Product.find(element[:product_id])
             quantity = element[:quantity]
             @order.order_products.create(product_id: product.id, quantity: quantity)
+            new_quantity_in_stock = (product.quantity_in_stock - quantity)
+            product.update_attributes(quantity_in_stock: new_quantity_in_stock)
           end
           session[:shopping_cart].clear
           format.html { redirect_to root_path, notice: t('orders.create') }  # "Your order was successfully submitted!"
@@ -63,8 +87,30 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1.json
   def update
     @order.earliest_pickup_date = calculate_earliest_pickup_date(:update)
+    # Save off original quantity for order_products
+    original_quantities = {}
+    @order.order_products.each { |order_product| original_quantities[order_product.id] = order_product.quantity }
     respond_to do |format|
       if @order.update(order_params)
+        okay = true
+        @order.order_products.each do |order_product|
+          new_quantity = order_product.quantity
+          original_quantity = original_quantities[order_product.id]
+          unless (new_quantity == original_quantity)
+            product = order_product.product
+            new_quantity_in_stock = (product.quantity_in_stock + original_quantity - new_quantity)
+            if new_quantity_in_stock < 0  # Desired quantity no longer available
+              okay = false if okay
+              # Update the order the best we can and notify user of discrepancy
+              new_quantity_in_stock = 0
+              # The original quantity was already subtracted from the stock; quantity should never have to decrease below what was previously ordered
+              new_quantity = original_quantity + product.quantity_in_stock
+              order_product.update_attributes(quantity: new_quantity)
+            end
+            product.update_attributes(quantity_in_stock: new_quantity_in_stock)
+          end
+        end
+        redirect_to(edit_order_path(@order), notice: t('orders.not_available')) and return if (!okay)  # "One or more of the products you selected is not available in the desired quantity. Please review the updated order."
         if session[:showing_user]
           format.html { redirect_to @order.user, notice: t('orders.create') }  # "Order was successfully updated."
           format.json { head :no_content }
@@ -89,6 +135,12 @@ class OrdersController < ApplicationController
     end
     respond_to do |format|
       if @order.update_attributes(order_status_id: 4, cancel_reason_id: cancel_reason_id)
+        @order.order_products.each do |order_product|
+          product = order_product.product
+          quantity = order_product.quantity
+          new_quantity_in_stock = (product.quantity_in_stock + quantity)
+          product.update_attributes(quantity_in_stock: new_quantity_in_stock)
+        end
         if session[:showing_user]
           format.html { redirect_to @order.user, notice: t('orders.cancel') }  # "Order was successfully canceled."
           format.json { head :no_content }

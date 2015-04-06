@@ -4,6 +4,7 @@ class Product < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :product_type_id
   validates_presence_of :price
+  validates_presence_of :quantity_in_stock
   validate :image_file_format, :if => :image_uploaded?
 
   belongs_to :product_type

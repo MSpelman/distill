@@ -51,7 +51,8 @@ class ProductsControllerTest < ActionController::TestCase
                                name: "Vixen Amber Whiskey",
                                price: 29.99,
                                product_type_id: product_types(:whiskey).id,
-                               release_date: 2015-02-01 }
+                               release_date: 2015-02-01,
+                               quantity_in_stock: 10 }
     end
     product_image.close
     temp_file.close!
@@ -124,9 +125,20 @@ class ProductsControllerTest < ActionController::TestCase
     @request.session[:shopping_cart] = []
     @product = products(:whiskey)
     assert_difference('@request.session[:shopping_cart].count') do
-      post :add_to_cart, id: @product.to_param
+      post :add_to_cart, id: @product.to_param, quantity: 1
     end
     assert_redirected_to products_path
+  end
+
+  test "should not add to cart because quantity requested not available" do
+    @request.session = {}
+    @request.session[:shopping_cart] = []
+    @product = products(:whiskey)
+    @product.update_attributes(quantity_in_stock: 1)
+    assert_no_difference('@request.session[:shopping_cart].count') do
+      post :add_to_cart, id: @product.to_param, quantity: 2
+    end
+    assert_redirected_to @product
   end
 
   test "should remove from cart" do

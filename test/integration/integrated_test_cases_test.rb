@@ -66,7 +66,8 @@ class IntegratedTestCasesTest < ActionDispatch::IntegrationTest
                      price: 49.99, 
                      product_type_id: product_types(:whiskey).id,
                      description: "120 proof, super-duper whiskey",
-                     active: true }
+                     active: true,
+                     quantity_in_stock: 12 }
     admin_user_session.create_new_product(product_hash)
 
     updated_product_hash = { price: 55.99 }
@@ -85,7 +86,8 @@ class IntegratedTestCasesTest < ActionDispatch::IntegrationTest
                      price: 50.00, 
                      product_type_id: product_types(:whiskey).id,
                      description: "120 proof, super-duper whiskey",
-                     active: true }
+                     active: true,
+                     quantity_in_stock: 12 }
     admin_user_session.create_new_product(product_hash)
     new_product = Product.find_by_name("Ke-wa-har-kess Whiskey")
 

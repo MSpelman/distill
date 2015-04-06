@@ -24,6 +24,13 @@
   <%= @product.average_rating %>
 </p>
 
+<% if @product.quantity_in_stock <= 12 %> <!-- a case or less left -->
+  <p class="red">
+    <strong><%= t('.quantity_in_stock') %></strong> <!-- "Quantity in Stock:" -->
+    <%= @product.quantity_in_stock %>
+  </p>
+<% end %>
+
 <p>
   <strong><%= t('.description') %></strong> <!-- "Description:" -->
   <%= @product.description %>
@@ -41,11 +48,17 @@
   </p>
 <% end %>
 
-<%= form_tag product_path do %>
-  <p>
-    <%= label_tag :quantity, t('.quantity') %> 
-    <%= number_field_tag :quantity, 1, in: 1...25 %>
-    <%= submit_tag(t('.add_to_cart')) %> <!-- "Add to Cart" -->
+<% if (@product.quantity_in_stock >= 1) %>
+  <%= form_tag product_path do %>
+    <p>
+      <%= label_tag :quantity, t('.quantity') %>
+      <%= number_field_tag :quantity, 1, in: 1...(@product.quantity_in_stock + 1) %>
+      <%= submit_tag(t('.add_to_cart')) %> <!-- "Add to Cart" -->
+    </p>
+  <% end %>
+<% else %>
+  <p class="red">
+    <%= t('.unavailable') %> <!-- "This product is currently unavailable." -->
   </p>
 <% end %>
 

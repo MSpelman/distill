@@ -41,6 +41,7 @@ class OrdersControllerTest < ActionController::TestCase
   test "should create order" do
     login_as(:user)
     create_shopping_cart
+    original_quantity = products(:whiskey).quantity_in_stock
     assert_difference('Order.count') do
       post :create, order: { pickup_date: Date.today }
     end
@@ -49,6 +50,7 @@ class OrdersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:order).order_products.first
     assert_not_nil assigns(:order).order_products.first.product_id
     assert_not_nil assigns(:order).order_products.first.quantity
+    assert_equal original_quantity - 1, Product.find(products(:whiskey).id).quantity_in_stock
     assert (@request.session[:shopping_cart].empty?)
     assert_redirected_to root_path
   end
@@ -61,6 +63,45 @@ class OrdersControllerTest < ActionController::TestCase
     assert !(@request.session[:shopping_cart].empty?)
     assert (@request.session[:checking_out] == true)
     assert_redirected_to login_path
+  end
+
+  test "should not create due to all items being out of stock" do
+    login_as(:user)
+    create_shopping_cart
+    products(:whiskey).update_attributes(quantity_in_stock: 0)
+    products(:tshirt).update_attributes(quantity_in_stock: 0)
+    assert_no_difference('Order.count') do
+      post :create, order: { pickup_date: Date.today - 1 }
+    end
+    assert @request.session[:shopping_cart].empty?
+    assert_redirected_to products_path
+  end
+
+  test "should not create due to one item being out of stock" do
+    login_as(:user)
+    create_shopping_cart
+    products(:whiskey).update_attributes(quantity_in_stock: 0)
+    assert_no_difference('Order.count') do
+      post :create, order: { pickup_date: Date.today - 1 }
+    end
+    assert !(@request.session[:shopping_cart].empty?)
+    assert_equal 1, @request.session[:shopping_cart].size
+    assert_equal products(:tshirt).id, @request.session[:shopping_cart][0][:product_id]
+    assert_redirected_to new_order_path
+  end
+
+  test "should not create due to one item not being available in the desired quantity" do
+    login_as(:user)
+    create_shopping_cart
+    products(:tshirt).update_attributes(quantity_in_stock: 1)
+    assert_no_difference('Order.count') do
+      post :create, order: { pickup_date: Date.today - 1 }
+    end
+    assert !(@request.session[:shopping_cart].empty?)
+    assert_equal 2, @request.session[:shopping_cart].size
+    assert_equal products(:tshirt).id, @request.session[:shopping_cart][1][:product_id]
+    assert_equal 1, @request.session[:shopping_cart][1][:quantity]
+    assert_redirected_to new_order_path
   end
 
   test "should not create due to pickup date in past" do
@@ -138,6 +179,7 @@ class OrdersControllerTest < ActionController::TestCase
     login_as(:user)
     @order = create_order(1)  # New
     @order_product = @order.order_products.first
+    original_quantity = @order_product.product.quantity_in_stock
     patch :update, id: @order.to_param, :order => {
                                           :pickup_date => (Date.today + 1),
                                           :order_products_attributes => {
@@ -149,7 +191,28 @@ class OrdersControllerTest < ActionController::TestCase
                                         }
     assert_equal Date.today + 1, assigns(:order).pickup_date
     assert_equal 2, assigns(:order).order_products.first.quantity
+    assert_equal original_quantity - 1, assigns(:order).order_products.first.product.quantity_in_stock
     assert_redirected_to orders_path
+  end
+
+  test "should update order but desired quantity not available" do
+    login_as(:user)
+    @order = create_order(1)  # Order has one product (:whiskey) with a quantity of 1
+    @order_product = @order.order_products.first
+    @order_product.product.update_attributes(quantity_in_stock: 1)  # 1 more available (for a total of 2), but user wants 3
+    patch :update, id: @order.to_param, :order => {
+                                          :pickup_date => (Date.today + 1),
+                                          :order_products_attributes => {
+                                            '0' => {
+                                              :quantity => 3,
+                                              :id => @order_product.id
+                                            }
+                                          }
+                                        }
+    assert_equal Date.today + 1, assigns(:order).pickup_date
+    assert_equal 2, assigns(:order).order_products.first.quantity
+    assert_equal 0, assigns(:order).order_products.first.product.quantity_in_stock
+    assert_redirected_to edit_order_path(@order)
   end
 
   test "should not update order" do
@@ -187,17 +250,20 @@ class OrdersControllerTest < ActionController::TestCase
 
   test "should get cancel" do
     login_as(:user)
-    @order = create_order(1)  # New
+    @order = create_order(1)  # Order has one product (:whiskey) with a quantity of 1
+    original_quantity = products(:whiskey).quantity_in_stock
     get :cancel, id: @order.to_param
     assert_redirected_to orders_path
     assert_equal 4, assigns(:order).order_status_id  # 4 - Canceled
     assert_equal 1, assigns(:order).cancel_reason_id  # 1 - Customer
+    assert_equal original_quantity + 1, assigns(:order).order_products.first.product.quantity_in_stock
     login_as(:admin)
     @order = create_order(2)  # Filled
     get :cancel, id: @order.to_param
     assert_redirected_to orders_path
     assert_equal 4, assigns(:order).order_status_id  # 4 - Canceled
     assert_equal 2, assigns(:order).cancel_reason_id  # 2 - Product Not Available
+    assert_equal original_quantity + 2, assigns(:order).order_products.first.product.quantity_in_stock
   end
 
   test "should not get cancel" do
