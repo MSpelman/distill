@@ -13,6 +13,22 @@ admin:
   newsletter: false
   active: true
   admin: true
+  receive_customer_inquiry: false
+
+admin_2:
+  email: "admin2@example.com"
+  hashed_password: "ea362246eaa6a99bfe18d72a07babcc728fd7e30" # => c0ntr0!!3r
+  name: "Admin Two User"
+  address_1: "1234 Admin St"
+  address_2: "Suite 4"
+  apt_number: ""
+  city: "Madison"
+  state: "WI"
+  zip_code: "53711"
+  newsletter: false
+  active: true
+  admin: true
+  receive_customer_inquiry: true
 
 user:
   email: "user@example.com"

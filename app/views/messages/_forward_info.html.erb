@@ -1,0 +1,30 @@
+<!-- Forwarded By information -->
+<% new_message = @current_message %>
+<% forwarded_message = new_message.forwarded_message %>
+
+<% unless forwarded_message.nil? %>
+  <strong><%= t('.forwarded_by_another') %></strong><br /> <!-- "Forwarded By Another User" -->
+<% end %>
+
+<% until forwarded_message.nil? %>
+  <strong><%= t('.forwarded_by') %></strong><%= forwarded_message.owner_user.name unless forwarded_message.owner_user.nil? %><br /> <!-- "Forwarded By: " -->
+  <strong><%= t('.time_forwarded') %></strong><%= new_message.created_at %><br /> <!-- "Time forwarded: " -->
+  <strong><%= t('.forward_note') %></strong><br /> <!-- "Forward note" -->
+  <%= new_message.forward_note %><br />
+  <% new_message = forwarded_message %>
+  <% forwarded_message = new_message.forwarded_message %>
+<% end %>
+
+<!-- Forwarded To information -->
+<% forwarded_to_messages = @current_message.forwards %>
+
+<% unless forwarded_to_messages.empty? %>
+  <strong><%= t('.forwarded_to_other') %></strong><br /> <!-- "Forwarded To Other Users" -->
+<% end %>
+
+<% forwarded_to_messages.each do |message| %>
+  <strong><%= t('.forwarded_to') %></strong><%= message.owner_user.name unless message.owner_user.nil? %><br /> <!-- "Forwarded To: " -->
+  <strong><%= t('.time_forwarded') %></strong><%= message.created_at %><br /> <!-- "Time forwarded: *" -->
+  <strong><%= t('.forward_note') %></strong><br /> <!-- "Forward note" -->
+  <%= message.forward_note %><br />
+<% end %>

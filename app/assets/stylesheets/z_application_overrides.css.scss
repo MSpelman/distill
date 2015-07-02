@@ -33,6 +33,12 @@ body {
   margin: 0 auto;
   margin-bottom: 10px}
 
+#map {
+    height: 500;
+    width: 500;
+    margin: 0 auto;
+    margin-bottom: 10px;}
+
 #footer {
   background-color: gray;
   color: white;
@@ -54,3 +60,12 @@ a:active {
 
 p.red {
   color: red;}
+
+.unread {
+  font-weight: bold;
+  color: yellow;}
+
+[disabled="disabled"] {
+  background-color: gray;
+  color: black;} 
+  

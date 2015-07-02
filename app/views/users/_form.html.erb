@@ -1,7 +1,7 @@
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> <%= t('activerecord.errors.template.header') %></h2> <!-- " prohibited this record from being saved" -->
+      <h2><%= pluralize(@user.errors.count, t('application.error')) %> <%= t('activerecord.errors.template.header') %></h2> <!-- "error", " prohibited this record from being saved" -->
 
       <ul>
       <% @user.errors.full_messages.each do |msg| %>
@@ -62,6 +62,10 @@
   <div class="field">
     <%= f.label :admin %><br>
     <%= f.check_box :admin %>
+  </div>
+  <div class="field">
+    <%= f.label :receive_customer_inquiry %><br>
+    <%= f.check_box :receive_customer_inquiry %>
   </div>
 
   <div class="actions">

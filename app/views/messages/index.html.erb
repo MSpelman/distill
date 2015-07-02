@@ -1,0 +1,24 @@
+<h1><%= t('.title') %></h1> <!-- "All Messages" -->
+<p>
+  <%= t('.switch_to') %><%= link_to t('.incoming_mail'), mailbox_in_messages_path %> | <%= link_to t('.outgoing_mail'), mailbox_out_messages_path %>  <!-- "Switch to: ", "Incoming Mail", "Outgoing Mail" -->
+</p>
+<p>
+  <%= link_to t('.new_message'), new_message_path %> <!-- "New Message" -->
+</p>
+<table>
+  <thead>
+    <tr>
+      <th><%= t('.from') %></th> <!-- "From" -->
+      <th><%= t('.to') %></th> <!-- "To" -->
+      <th><%= t('.subject') %></th> <!-- "Subject" -->
+      <th><%= t('.date') %></th> <!-- "Date" -->
+      <th><%= t('.time') %></th> <!-- "Time" -->
+      <th><%= t('.type') %></th> <!-- "Type" -->
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render @messages %>
+  </tbody>
+</table>

@@ -152,4 +152,29 @@ class ActiveSupport::TestCase
     return false
   end
 
+  # Creates a message for use in testing
+  # from_user: user that sent the message
+  # to_user: message recipient
+  # returns a hash with two message objects
+  # message_hash[:out]: the outgoing message that appears in the from user's outbox
+  # message_hash[:in]: the incoming message that appears in the to user's inbox
+  def create_message(from_user = users(:user), to_user = users(:admin))
+    message_hash = {}
+    outgoing_message = Message.new
+    outgoing_message.subject = "Subject"
+    outgoing_message.body = "This is the body of a message"
+    outgoing_message.message_type_id = message_types(:customer_inquiry).id
+    outgoing_message.from_user_id = from_user.id
+    outgoing_message.save
+    outgoing_message.recipient_users.create(user_id: to_user.id)
+    incoming_message = outgoing_message.dup
+    incoming_message.owner_user_id = to_user.id
+    incoming_message.copied_message_id = outgoing_message.id
+    incoming_message.save
+    incoming_message.recipient_users.create(user_id: to_user.id)
+    message_hash[:out] = outgoing_message
+    message_hash[:in] = incoming_message
+    return message_hash
+  end
+
 end

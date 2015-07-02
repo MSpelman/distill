@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150305225539) do
+ActiveRecord::Schema.define(version: 20150616210121) do
 
   create_table "cancel_reasons", force: true do |t|
     t.string   "name"
@@ -28,6 +28,31 @@ ActiveRecord::Schema.define(version: 20150305225539) do
     t.datetime "updated_at"
     t.integer  "product_id"
     t.integer  "user_id"
+  end
+
+  create_table "message_types", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "active"
+  end
+
+  create_table "messages", force: true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.boolean  "deleted"
+    t.boolean  "read"
+    t.datetime "took_ownership_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "message_type_id"
+    t.integer  "from_user_id"
+    t.integer  "owner_user_id"
+    t.integer  "copied_message_id"
+    t.integer  "parent_id"
+    t.text     "forward_note"
+    t.integer  "forwarded_message_id"
   end
 
   create_table "order_products", force: true do |t|
@@ -77,6 +102,13 @@ ActiveRecord::Schema.define(version: 20150305225539) do
     t.integer  "quantity_in_stock"
   end
 
+  create_table "recipient_users", force: true do |t|
+    t.integer  "message_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "email"
     t.string   "hashed_password"
@@ -92,6 +124,7 @@ ActiveRecord::Schema.define(version: 20150305225539) do
     t.boolean  "admin"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "receive_customer_inquiry"
   end
 
 end

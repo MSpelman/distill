@@ -1,0 +1,27 @@
+<h1><%= t('.title') %></h1> <!-- "Listing Message Types" -->
+
+<table>
+  <thead>
+    <tr>
+      <th><%= t('.name') %></th> <!-- "Name" -->
+      <th><%= t('.description') %></th> <!-- "Description" -->
+      <th><%= t('.active') %></th> <!-- "Active?" -->
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @message_types.each do |message_type| %>
+      <tr>
+        <td><%= message_type.name %></td>
+        <td><%= message_type.description %></td>
+        <td><%= message_type.active %></td>
+        <td><%= link_to t('.edit'), edit_message_type_path(message_type) %></td> <!-- "Edit" -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to t('.new_message_type'), new_message_type_path %> <!-- "New Message Type" -->

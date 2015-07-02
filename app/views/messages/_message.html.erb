@@ -1,0 +1,29 @@
+<%= div_for message do %>
+  <% local_sent_time = message.created_at.getlocal %>
+  <% if ((message.read != true) && (session[:messaging_context] == :mailbox_in)) %>
+  <tr class="unread">
+  <% else %>
+  <tr>
+  <% end %>
+    <% if session[:messaging_context] == :mailbox_in %>
+    <td><%= "<-" if (message.replied_to?) %></td>
+      <% if admin_user? %>
+      <td><%= "->" if (message.forwarded?) %></td>
+      <% end %>
+    <% elsif session[:messaging_context] == :mailbox_out %>
+    <td><%= "<-" if (message.reply?) %></td>
+    <% end %>
+    <% unless session[:messaging_context] == :mailbox_out %>
+    <td><%= message.from_user.name unless (message.from_user.nil?) %></td>
+    <% end %>
+    <% unless session[:messaging_context] == :mailbox_in %>
+    <td><%= message.recipient_users.first.user.name unless (message.recipient_users.first.nil?) %></td>
+    <% end %>
+    <td><%= message.subject %></td>
+    <td><%= local_sent_time.strftime("%D") %></td>
+    <td><%= local_sent_time.strftime("%r") %></td>
+    <td><%= message.message_type.name unless message.message_type.nil? %></td>
+    <td><%= link_to t('.read'), message %></td> <!-- "Read" -->
+    <td><%= link_to t('.remove'), message, method: :delete, data: { confirm: t('.are_you_sure') } %></td> <!-- "Remove", "Are you sure?" -->
+  </tr>
+<% end %>

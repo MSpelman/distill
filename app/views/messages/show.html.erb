@@ -1,0 +1,35 @@
+<h2><%= t('.title') %></h2> <!-- "Message:" -->
+
+<% if admin_user? %>
+  <% @current_message = @message %>
+  <%= render 'forward_info' %>
+<% end %>
+
+<p>
+  <strong><%= t('.from') %></strong> <%= @message.from_user.name unless @message.from_user.nil? %><br /> <!-- "From:" -->
+  <strong><%= t('.to') %></strong> <%= @message.recipient_users.first.user.name unless @message.recipient_users.first.nil? %><br /> <!-- "To:" -->
+  <strong><%= t('.time_sent') %></strong> <%= @message.created_at %><br /> <!-- "Time sent:" -->
+  <strong><%= t('.message_type') %></strong> <%= @message.message_type.name unless @message.message_type.nil? %><br /> <!-- "Message Type:" -->
+  <strong><%= t('.subject') %></strong> <%= @message.subject %><br /> <!-- "Subject:" -->
+  <strong><%= t('.body') %></strong><br /> <!-- "Body:" -->
+  <%= @message.body %>
+</p>
+
+<%= render 'previous_messages' %>
+
+<!-- Back link; goes back to where the user came from -->
+<% if session[:messaging_context] == :index %>
+  <%= link_to t('.back'), messages_path %> <!-- "Back" -->
+<% elsif session[:messaging_context] == :mailbox_out %>
+  <%= link_to t('.back'), mailbox_out_messages_path %> <!-- "Back" -->
+<% else %>
+  <%= link_to t('.back'), mailbox_in_messages_path %> <!-- "Back" -->
+<% end %>
+<!-- Reply link; only shows for incoming messages -->
+<% if (@message.owner_user_id == current_user.id) %>
+  | <%= link_to t('.reply'), messages_reply_path(message_id: @message.id) %> <!-- "Reply" -->
+<% end %>
+<!-- Forward link; only shows to admins for incoming messages -->
+<% if (admin_user? && (@message.owner_user_id == current_user.id)) %>
+  | <%= link_to t('.forward'), edit_message_path(@message) %> <!-- "Forward" -->
+<% end %>

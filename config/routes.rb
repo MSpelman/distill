@@ -42,6 +42,15 @@ Distill::Application.routes.draw do
     get :contact
     get :whiskey_process
   end
+  resources :message_types
+  get 'messages/reply'
+  resources :messages do
+    resources :recipient_users
+    collection do
+      get :mailbox_in
+      get :mailbox_out
+    end
+  end
   
   # Set up named routes for login/logout
   get "/login" => "sessions#new", :as => "login"

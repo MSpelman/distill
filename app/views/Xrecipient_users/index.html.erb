@@ -1,0 +1,29 @@
+<h1>Listing recipient_users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Message</th>
+      <th>User</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @recipient_users.each do |recipient_user| %>
+      <tr>
+        <td><%= recipient_user.message_id %></td>
+        <td><%= recipient_user.user_id %></td>
+        <td><%= link_to 'Show', recipient_user %></td>
+        <td><%= link_to 'Edit', edit_recipient_user_path(recipient_user) %></td>
+        <td><%= link_to 'Destroy', recipient_user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Recipient user', new_recipient_user_path %>

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+customer_inquiry:
+  name: 'Customer Inquiry'
+  description: 'Message type used when a customer sends a question to an admin user.'
+  active: true
+
+admin:
+  name: 'Admin to Admin'
+  description: 'Message type used when an admin user messages another admin user.'
+  active: false

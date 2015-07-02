@@ -1,0 +1,27 @@
+<h1><%= t('.title') %></h1> <!-- "Mailbox: Incoming Mail" -->
+<p>
+  <%= t('.switch_to') %><%= link_to t('.outgoing_mail'), mailbox_out_messages_path %> | <%= link_to t('.all_messages'), messages_path %> <!-- "Switch to: ", "Outgoing Mail", "All Messages" -->
+</p>
+<p>
+  <%= link_to t('.new_message'), new_message_path %> <!-- "New Message" -->
+</p>
+<table>
+  <thead>
+    <tr>
+      <th><abbr title="<%= t('.reply_title') %>"><%= t('.reply_abbr') %></abbr></th> <!-- "Has this message been replied to?", "Rpl?" -->
+      <% if admin_user? %>
+      <th><abbr title="<%= t('.forward_title') %>"><%= t('.forward_abbr') %></abbr></th> <!-- "Has this message been forwarded?", "Fwd?" -->
+      <% end %>
+      <th><%= t('.from') %></th> <!-- "From" -->
+      <th><%= t('.subject') %></th> <!-- "Subject" -->
+      <th><%= t('.date') %></th> <!-- "Date" -->
+      <th><%= t('.time') %></th> <!-- "Time" -->
+      <th><%= t('.type') %></th> <!-- "Type" -->
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render @messages %>
+  </tbody>
+</table>

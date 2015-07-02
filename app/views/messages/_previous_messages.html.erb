@@ -1,0 +1,28 @@
+<% message = @message.parent %>
+
+<% unless message.nil? %>
+  <h2><%= t('.title') %></h2> <!-- "Previous Messages:" -->
+<% end %>
+
+<% until message.nil? %>
+  <% if admin_user? %>
+    <% @current_message = message %>
+    <%= render 'forward_info' %>
+  <% end %>
+  <p>
+    <strong><%= t('.from') %></strong><%= message.from_user.name unless message.from_user.nil? %><br /> <!-- "From: " -->
+    <strong><%= t('.to') %></strong><%= message.recipient_users.first.user.name unless message.recipient_users.first.nil? %><br /> <!-- "To: " -->
+    <strong><%= t('.time_sent') %></strong><%= message.created_at %><br /> <!-- "Time sent: " -->
+    <strong><%= t('.type') %></strong><%= message.message_type.name unless message.message_type.nil? %><br /> <!-- "Type: " -->
+    <strong><%= t('.subject') %></strong><%= message.subject %><br /> <!-- "Subject: " -->
+    <strong><%= t('.body') %></strong><br /> <!-- "Body" -->
+    <%= message.body %>
+  </p>
+  <% message = message.parent %>
+  <% unless message.nil? %>
+    <p>
+      ==========================================================================================
+    </p>
+  <% end %>
+<% end %>
+

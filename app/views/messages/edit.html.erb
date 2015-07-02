@@ -1,0 +1,38 @@
+<h1><%= t('.title') %></h1> <!-- "Forwarding Message" -->
+
+<%= form_for(@message) do |f| %>
+  <% if @message.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@message.errors.count, t('application.error')) %> <%= t('activerecord.errors.template.header') %></h2> <!-- "error", " prohibited this record from being saved" -->
+
+      <ul>
+      <% @message.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= label_tag :recipient_user_id, t('.to') %><br> <!-- "To:" -->
+    <%= collection_select(:message, :recipient_user_id, User.admin_only, :id, :name, {prompt: t('.select_user')}) %> <!-- "Select User" -->
+  </div>
+  <div class="field">
+    <%= f.label :fwd_note, t('.forward_note') %><br> <!-- "Forward note:" -->
+    <%= f.text_area :fwd_note %>
+  </div>
+
+  <h2><%= t('.original_message') %></h2> <!-- "Original Message:" -->
+  <strong><%= t('.from') %></strong><%= @message.from_user.name unless @message.from_user.nil? %><br /> <!-- "From: " -->
+  <strong><%= t('.time_sent') %></strong><%= @message.created_at %><br /> <!-- "Time sent: " -->
+  <strong><%= t('.type') %></strong><%= @message.message_type.name unless @message.message_type.nil? %><br /> <!-- "Type: " -->
+  <strong><%= t('.subject') %></strong><%= @message.subject %><br /> <!-- "Subject: " -->
+  <strong><%= t('.body') %></strong><br /> <!-- "Body" -->
+  <%= @message.body %>
+
+  <%= render 'previous_messages' %>
+
+  <div class="actions">
+    <%= submit_or_return_to_show(f) %>
+  </div>
+<% end %>

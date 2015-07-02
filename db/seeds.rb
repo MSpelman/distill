@@ -16,3 +16,4 @@ OrderStatus.create [{:name => 'New'},
 CancelReason.create [{:name => 'Customer'},
                      {:name => 'Product Not Available'},
                      {:name => 'Miscellaneous'}]
+MessageType.create [{name: 'Customer Inquiry', description: 'Customer initiated message sent to site administrators.', active: true}]

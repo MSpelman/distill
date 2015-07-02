@@ -195,6 +195,50 @@ class IntegratedTestCasesTest < ActionDispatch::IntegrationTest
     assert_equal (initial_comments_count + 1), products(:whiskey).comments.active_only.count
   end
 
+  test "customer inquiry by user, admin_2 forwards to admin, and admin replies to user" do
+    # User logs in
+    user_session = create_session
+    user_session.log_in('user@example.com', 'c0ntr0!!3r')
+    # User goes to inbox and creates new customer inquiry
+    user_session.go_to_mailbox_in
+    customer_inquiry_hash = { subject: "Test Subject",
+                              body: "Message body" }
+    message_hash = user_session.create_customer_inquiry(customer_inquiry_hash)
+    initial_message = message_hash[:in]  # Message that shows up in admin_2's inbox
+    # User logs out
+    user_session.log_out
+    # Admin_2 logs in
+    admin_2_user_session = create_session
+    admin_2_user_session.log_in('admin2@example.com', 'c0ntr0!!3r')
+    # Admin_2 goes to inbox, reads customer inquiry, and forwards to Admin
+    admin_2_user_session.go_to_mailbox_in
+    admin_2_user_session.read_message(initial_message)
+    forward_hash = { recipient_user_id: users(:admin).id,
+                     fwd_note: "Where is this user's order?" }
+    forwarded_message = admin_2_user_session.forward_message(initial_message, forward_hash)
+    # Admin_2 logs out
+    admin_2_user_session.log_out
+    # Admin logs in
+    admin_user_session = create_session
+    admin_user_session.log_in('admin@example.com', 'c0ntr0!!3r')
+    # Admin goes to inbox, reads message, replies to user
+    admin_user_session.go_to_mailbox_in
+    admin_user_session.read_message(forwarded_message)  #*
+    reply_hash = { body: "Message body" }
+    reply_message_hash = admin_user_session.reply_message(forwarded_message, reply_hash)
+    reply_message = reply_message_hash[:in]  # Reply message that shows up in user's inbox
+    # Admin logs out
+    admin_user_session.log_out
+    # User logs in
+    user_session = create_session
+    user_session.log_in('user@example.com', 'c0ntr0!!3r')
+    # User goes to inbox and reads reply
+    user_session.go_to_mailbox_in
+    user_session.read_message(reply_message)
+    # User logs out
+    user_session.log_out
+  end
+
   private
 
   def create_session
@@ -459,6 +503,78 @@ class IntegratedTestCasesTest < ActionDispatch::IntegrationTest
         get approve_product_comment_path(product, comment)  # Approve comment
         assert_redirected_to product_comments_path('#')
         assert_template "index"
+      end
+
+      def go_to_mailbox_in
+        get mailbox_in_messages_path
+        assert_response :success
+        assert_template "mailbox_in"
+      end
+
+      # Requires session with logged in non-admin user
+      def create_customer_inquiry(customer_inquiry_hash)
+        get new_message_path
+        assert_response :success
+        assert_template "new"
+        post messages_path, message: customer_inquiry_hash
+        out_message = assigns(:message)  # Message in user's outbox
+        in_message = out_message.copies.first  # Message in admin_2's inbox
+        assert out_message.valid?
+        assert in_message.valid?
+        assert_response :redirect
+        assert_redirected_to mailbox_in_messages_path
+        follow_redirect!
+        assert_response :success
+        assert_template "mailbox_in"
+        message_hash = {}
+        message_hash[:out] = out_message
+        message_hash[:in] = in_message
+        return message_hash
+      end
+
+      def read_message(message)
+        get message_path(message)
+        assert_response :success
+        assert_template "show"
+      end
+
+      # Only returns the forwarded message, i.e. the one that shows up in the new
+      # recipient's inbox.  No need to return updated message, as it is already known (it
+      # is passed in the message param)
+      def forward_message(message, forward_hash)
+        get edit_message_path(message)
+        assert_response :success
+        assert_template "edit"
+        patch message_path, message: forward_hash
+        original_message = assigns(:message)  # message being forwarded
+        new_message = original_message.copies.first  # message created by forward
+        assert new_message.valid?
+        assert_response :redirect
+        assert_redirected_to mailbox_in_messages_path
+        follow_redirect!
+        assert_response :success
+        assert_template "mailbox_in"
+        return new_message
+      end
+
+      def reply_message(message, reply_hash)
+        get messages_reply_path(message_id: message.id)
+        assert_response :success
+        assert_template "reply"
+        post messages_path, message: reply_hash
+        out_message = assigns(:message)  # Message in admin's outbox
+        in_message = out_message.copies.first  # Message in user's inbox
+        assert out_message.valid?
+        assert in_message.valid?
+        assert_response :redirect
+        assert_redirected_to mailbox_in_messages_path
+        follow_redirect!
+        assert_response :success
+        assert_template "mailbox_in"
+        message_hash = {}
+        message_hash[:out] = out_message
+        message_hash[:in] = in_message
+        return message_hash
       end
 
     end

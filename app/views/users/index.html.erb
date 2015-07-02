@@ -7,6 +7,7 @@
       <th><%= t('.name') %></th> <!-- "Name" -->
       <th><%= t('.active') %></th> <!-- "Active" -->
       <th><%= t('.admin') %></th> <!-- "Admin" -->
+      <th><%= t('.cust_inq') %></th> <!-- "Cust Inq" -->
       <th></th>
       <th></th>
     </tr>
@@ -19,6 +20,7 @@
         <td><%= user.name %></td>
         <td><%= user.active %></td>
         <td><%= user.admin %></td>
+        <td><%= user.receive_customer_inquiry %></td>
         <td><%= link_to t('.show'), user %></td> <!-- "Show" -->
         <td><%= link_to t('.edit'), edit_user_path(user) %></td> <!-- "Edit" -->
       </tr>

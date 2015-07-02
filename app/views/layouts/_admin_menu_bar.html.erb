@@ -8,7 +8,9 @@
 <%= link_to t('application.process'), whiskey_process_page_path %> | <!-- "Process"  -->
 <%= link_to t('application.products'), products_path %> | <!-- "Products"  -->
 <%= link_to t('application.orders'), orders_path %> | <!-- "Orders"  -->
+<%= link_to t('application.mailbox'), mailbox_in_messages_path %> | <!-- "Mailbox" -->
 <%= link_to t('application.users'), search_users_path %> | <!-- "Users" -->
-<%= link_to t('application.comments'), product_comments_path('#') %> <!-- "Comments" -->
+<%= link_to t('application.comments'), product_comments_path('#') %> | <!-- "Comments" -->
+<%= link_to t('application.message_types'), message_types_path %><!-- "Message Types" -->
 <% unless ((session[:shopping_cart].nil?)||(session[:shopping_cart].empty?)) %> | <% end %>
 <%= link_to(t('application.cart'), new_order_path) unless ((session[:shopping_cart].nil?)||(session[:shopping_cart].empty?)) %> <!-- "Cart"  -->
