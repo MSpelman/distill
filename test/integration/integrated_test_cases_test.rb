@@ -13,7 +13,7 @@ class IntegratedTestCasesTest < ActionDispatch::IntegrationTest
                   password: "c0ntr0!!3r",
                   name: "Integrated Create-Self",
                   newsletter: false,
-                  state: "WI",
+                  state_id: states(:wi).id,
                   zip_code: "53741" }
     new_user_session.creates_new_self(user_hash)
     new_user_session.log_out
@@ -32,7 +32,7 @@ class IntegratedTestCasesTest < ActionDispatch::IntegrationTest
                   password: "c0ntr0!!3r",
                   name: "Integrated Create-Admin",
                   newsletter: false,
-                  state: "WI",
+                  state_id: states(:wi).id,
                   zip_code: "53741" }
     admin_user_session.admin_creates_new_user(user_hash)
     admin_user_session.log_out
