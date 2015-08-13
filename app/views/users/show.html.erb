@@ -30,7 +30,7 @@
 
 <p>
   <strong><%= t('.state') %></strong> <!-- "State:" -->
-  <%= @user.state %>
+  <%= @user.state.name unless (@user.state.nil?) %>
 </p>
 
 <p>

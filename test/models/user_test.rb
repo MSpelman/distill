@@ -11,8 +11,8 @@ class UserTest < ActiveSupport::TestCase
     user.address_2 = "line 2"
     user.apt_number = "409"
     user.city = "Madison"
-    user.state = "WI"
-    user.zip_code = "53715"
+    user.state_id = states(:wi).id
+    user.zip_code = "53715-1234"
     user.newsletter = true
     user.active = true
     user.admin = false
@@ -93,6 +93,36 @@ class UserTest < ActiveSupport::TestCase
     assert !user.save
   end
 
+  test "should not create user with incorrectly formatted password" do
+    user = User.new
+    user.email = "bad_password@example.com"
+    user.name = "Bad Password"
+    # Does not have at least one letter
+    user.password = "101230!!31"
+    assert !user.valid?
+    assert user.errors.any?
+    assert_equal :"Password Format Error*", user.errors.first[0]
+    assert !user.save
+    # Does not have at least one number
+    user.password = "contro!!er"
+    assert !user.valid?
+    assert user.errors.any?
+    assert_equal :"Password Format Error*", user.errors.first[0]
+    assert !user.save
+    # Does not have at least one punctuation mark
+    user.password = "c0ntr0ll3r"
+    assert !user.valid?
+    assert user.errors.any?
+    assert_equal :"Password Format Error*", user.errors.first[0]
+    assert !user.save
+    # No whitespace allowed
+    user.password = "c0nt 0!!3r"
+    assert !user.valid?
+    assert user.errors.any?
+    assert_equal :"Password Format Error*", user.errors.first[0]
+    assert !user.save
+  end
+
   test "should not create user with no name" do
     user = User.new
     user.email = "no_name@example.com"
@@ -100,6 +130,30 @@ class UserTest < ActiveSupport::TestCase
     assert !user.valid?
     assert user.errors[:name].any?
     assert_equal ["can't be blank*"], user.errors[:name]
+    assert !user.save
+  end
+
+  test "should not create user with incorrectly formatted name" do
+    user = User.new
+    user.email = "bad_name@example.com"
+    user.password = "c0ntr0!!3r"
+    # Does not start with a capital
+    user.name = "bad Name"
+    assert !user.valid?
+    assert user.errors.any?
+    assert_equal :"Name Format Error*", user.errors.first[0]
+    assert !user.save
+    # Does not only contain letters
+    user.name = "Bad Name1"
+    assert !user.valid?
+    assert user.errors.any?
+    assert_equal :"Name Format Error*", user.errors.first[0]
+    assert !user.save
+    # No last name
+    user.name = "Bad"
+    assert !user.valid?
+    assert user.errors.any?
+    assert_equal :"Name Format Error*", user.errors.first[0]
     assert !user.save
   end
 
@@ -115,6 +169,33 @@ class UserTest < ActiveSupport::TestCase
     assert !user.valid?
     assert user.errors[:receive_customer_inquiry].any?
     assert_equal ["has already been taken*"], user.errors[:receive_customer_inquiry]
+    assert !user.save
+  end
+
+  test "should allow correctly formatted zip" do
+    user = users(:user)
+    # Should allow alphas in first 5 characters to support Mexican and Canadian post codes
+    assert user.update_attributes(newsletter: "A1B2C")
+    # Should allow for a "plus 4" zip
+    assert user.update_attributes(newsletter: "53715-1234")
+  end
+
+  test "should not create user with incorrectly formatted zip" do
+    user = User.new
+    user.email = "bad_zip@example.com"
+    user.password = "c0ntr0!!3r"
+    user.name = "Bad Zip"
+    # Not in ##### or #####-#### format
+    user.zip_code = "123456"
+    assert !user.valid?
+    assert user.errors.any?
+    assert_equal :"Postal Code Format Error*", user.errors.first[0]
+    assert !user.save
+    # If in #####-#### format, the plus 4 should be numbers
+    user.zip_code = "12345-ABCD"
+    assert !user.valid?
+    assert user.errors.any?
+    assert_equal :"Postal Code Format Error*", user.errors.first[0]
     assert !user.save
   end
 

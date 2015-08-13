@@ -17,3 +17,9 @@ CancelReason.create [{:name => 'Customer'},
                      {:name => 'Product Not Available'},
                      {:name => 'Miscellaneous'}]
 MessageType.create [{name: 'Customer Inquiry', description: 'Customer initiated message sent to site administrators.', active: true}]
+State.create [{name: 'Illinois', abbr: 'IL', active: true},
+              {name: 'Indiana', abbr: 'IN', active: true},
+              {name: 'Iowa', abbr: 'IA', active: false},
+              {name: 'Michigan', abbr: 'MI', active: true},
+              {name: 'Minnesota', abbr: 'MN', active: true},
+              {name: 'Wisconsin', abbr: 'WI', active: true}]

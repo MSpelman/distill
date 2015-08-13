@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+il:
+  name: 'Illinois'
+  abbr: 'IL'
+  active: true
+
+in:
+  name: 'Indiana'
+  abbr: 'IN'
+  active: true
+
+ia:
+  name: 'Iowa'
+  abbr: 'IA'
+  active: false
+
+mi:
+  name: 'Michigan'
+  abbr: 'MI'
+  active: true
+
+mn:
+  name: 'Minnesota'
+  abbr: 'MN'
+  active: true
+
+wi:
+  name: 'Wisconsin'
+  abbr: 'WI'
+  active: true

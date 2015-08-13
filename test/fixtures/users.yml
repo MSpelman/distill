@@ -8,7 +8,7 @@ admin:
   address_2: "Suite 4"
   apt_number: ""
   city: "Madison"
-  state: "WI"
+  state_id: states(:wi).id
   zip_code: "53711"
   newsletter: false
   active: true
@@ -23,7 +23,7 @@ admin_2:
   address_2: "Suite 4"
   apt_number: ""
   city: "Madison"
-  state: "WI"
+  state_id: states(:wi).id
   zip_code: "53711"
   newsletter: false
   active: true
@@ -38,8 +38,8 @@ user:
   address_2: ""
   apt_number: "3A"
   city: "Madison"
-  state: "WI"
-  zip_code: "53719"
+  state_id: states(:wi).id
+  zip_code: "53715"
   newsletter: true
   active: true
   admin: false
@@ -52,7 +52,7 @@ inactive:
   address_2: ""
   apt_number: ""
   city: "Madison"
-  state: "WI"
+  state_id: states(:wi).id
   zip_code: "53715"
   newsletter: true
   active: false

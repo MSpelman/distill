@@ -1,7 +1,7 @@
 <%= form_for([@product, @comment]) do |f| %>
   <% if @comment.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@comment.errors.count, "error") %> <%= t('activerecord.errors.template.header') %></h2> <!-- " prohibited this record from being saved" -->
+      <h2><%= pluralize(@comment.errors.count, t('application.error')) %> <%= t('activerecord.errors.template.header') %></h2> <!-- "error", " prohibited this record from being saved" -->
 
       <ul>
       <% @comment.errors.full_messages.each do |msg| %>
@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= f.label :summary %><br>
-    <%= f.text_field :summary %>
+    <%= f.text_field :summary, autofocus: true %>
   </div>
   <div class="field">
     <%= f.label :detail %><br>

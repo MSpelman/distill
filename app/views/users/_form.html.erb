@@ -13,11 +13,12 @@
 
   <div class="field">
     <%= f.label :email %><br>
-    <%= f.text_field :email %>
+    <%= f.text_field :email, autofocus: true %>
   </div>
   <div class="field">
     <%= f.label :password %><br>
     <%= f.password_field :password %>
+    <%= t('.password_instructions') %> <!-- "Password needs to be 6 to 20 characters, have at least one letter, number, and punctuation mark, and no spaces." -->
   </div>
   <div class="field">
     <%= f.label :password_confirmation %><br>
@@ -44,8 +45,8 @@
     <%= f.text_field :city %>
   </div>
   <div class="field">
-    <%= f.label :state %><br>
-    <%= f.text_field :state %>
+    <%= f.label :state_id %><br>
+    <%= collection_select(:user, :state_id, State.active_only, :id, :name, {prompt: t('.select_state')}) %> <!-- "Select State" -->
   </div>
   <div class="field">
     <%= f.label :zip_code %><br>

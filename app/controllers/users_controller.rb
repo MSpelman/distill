@@ -127,10 +127,10 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       if admin_user?
-        params.require(:user).permit(:email, :password, :password_confirmation, :name, :address_1, :address_2, :apt_number, :city, :state, :zip_code, :newsletter, :active, :admin, :receive_customer_inquiry)
+        params.require(:user).permit(:email, :password, :password_confirmation, :name, :address_1, :address_2, :apt_number, :city, :state_id, :zip_code, :newsletter, :active, :admin, :receive_customer_inquiry)
       else
         # Don't allow non-admin users to hack the parameters and give themselves admin security; self created records automatically set to active
-        params.require(:user).permit(:email, :password, :password_confirmation, :name, :address_1, :address_2, :apt_number, :city, :state, :zip_code, :newsletter)
+        params.require(:user).permit(:email, :password, :password_confirmation, :name, :address_1, :address_2, :apt_number, :city, :state_id, :zip_code, :newsletter)
       end
     end
 

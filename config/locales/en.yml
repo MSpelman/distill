@@ -299,12 +299,16 @@ en:
       pickup_order: "Pickup Order*"
       cancel_order: "Cancel Order*"
       are_you_sure: "Are you sure you want to cancel this Order?*"
+  pages:
+    home:
+      title: "Home*"
+      welcome: "Welcome to Spirit of the North Distillery!*"
   products:
     create: "Product was successfully created.*"
     update: "Product was successfully updated.*"
     add_to_cart_error: "The quantity cannot be greater than the amount in stock.*"
-    no_ratings: "No Ratings*"
-    reviews: "reviews*"
+    currency_marker: "$*"
+    no_ratings: "No Rating*"
     needs_jpeg_format: " - The file needs to be in JPEG (.jpg) format.*"
     file_format_error: "File Format Error*"
     form:
@@ -359,6 +363,26 @@ en:
     self_update: "Your profile was successfully updated.*"
     no_email: "Please enter an email address to search on.*"
     no_user: "No user has this email address.*"
+    only_active_admin: " - Only active admin users can receive customer inquires.*"
+    customer_inquiry_error: "Receive Customer Inquiry Error*"
+    need_first_and_last: " - Must include first and last name.*"
+    first_name_capital: " - First name must start with a capital and only contain letters.*"
+    letters_only: " - Name must only contain letters.*"
+    name_format_error: "Name Format Error*"
+    postal_code_format: " - Postal code should be in the format ##### or #####-####.*"
+    zip_format_error: "Postal Code Format Error*"
+    needs_letter: "needs at least one letter*"
+    needs_number: "needs at least one number*"
+    needs_punctuation: "needs at least one punctuation mark*"
+    no_spaces: "cannot contain spaces*"
+    error_msg: "Password *"
+    password_format_error: "Password Format Error*"
+    form:
+      password_instructions: "Password needs to be 6 to 20 characters, have at least one letter, number, and punctuation mark, and no spaces.*"
+      select_state: "Select State*"
+    user_form:
+      password_instructions: "Password needs to be 6 to 20 characters, have at least one letter, number, and punctuation mark, and no spaces.*"
+      select_state: "Select State*"
     edit_self:
       title: "Editing User Profile*"
     edit:
@@ -421,6 +445,7 @@ en:
       order_status: "Order Status*"
       order: "Order*"
       product: "Product*"
+      state: "State*"
       user: "User*"
     attributes:
       comment:
@@ -460,6 +485,9 @@ en:
         description: "Description*"
         release_date: "Release Date*"
         active: "Active*"
+      state:
+        name: "Name*"
+        abbr: "Abbreviation*"
       user:
         email: "Email*"
         password: "Password*"
@@ -469,7 +497,7 @@ en:
         address_2: "Address Line 2*"
         apt_number: "Apartment Number*"
         city: "City*"
-        state: "State*"
+        state_id: "State*"
         zip_code: "Zip Code*"
         newsletter: "Signed up for email newsletter?*"
         active: "Is the user account active?*"

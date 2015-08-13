@@ -16,7 +16,7 @@ class Product < ActiveRecord::Base
 
   # Method to display the product name along with the price per unit
   def name_with_unit_price
-    "#{name} ($#{price})"
+    "#{name} (#{I18n.t('products.currency_marker')}#{price})"  # "$"
   end
 
   # Method to display the average user rating and number of reviews for the product
@@ -24,8 +24,8 @@ class Product < ActiveRecord::Base
     total = 0.0
     self.comments.each { |comment| total = total + comment.rating }
     number_of_ratings = self.comments.count
-    return I18n.t('products.no_ratings') if (number_of_ratings == 0)  # "No Ratings"
-    "#{total / number_of_ratings} (#{number_of_ratings} #{I18n.t('products.reviews')})"  # "reviews"
+    return I18n.t('products.no_ratings') if (number_of_ratings == 0)  # "No Rating"
+    "#{total / number_of_ratings} (#{number_of_ratings})"
   end
 
   private

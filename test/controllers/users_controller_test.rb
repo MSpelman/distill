@@ -56,7 +56,7 @@ class UsersControllerTest < ActionController::TestCase
                             password: "c0ntr0!!3r",
                             name: "Create Admin",
                             newsletter: false,
-                            state: "WI",
+                            state: states(:wi).id,
                             zip_code: "53741" }
     end
     assert_redirected_to search_users_path
@@ -72,7 +72,7 @@ class UsersControllerTest < ActionController::TestCase
                             password: "c0ntr0!!3r",
                             name: "Create Self",
                             newsletter: false,
-                            state: "WI",
+                            state: states(:wi).id,
                             zip_code: "53741" }
     end
     assert_redirected_to root_path

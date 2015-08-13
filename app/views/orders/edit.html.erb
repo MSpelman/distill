@@ -3,7 +3,7 @@
 
   <% if @order.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@order.errors.count, "error") %> <%= t('activerecord.errors.template.header') %></h2> <!-- " prohibited this record from being saved" -->
+      <h2><%= pluralize(@order.errors.count, t('application.error')) %> <%= t('activerecord.errors.template.header') %></h2> <!-- "error", " prohibited this record from being saved" -->
 
       <ul>
       <% @order.errors.full_messages.each do |msg| %>
