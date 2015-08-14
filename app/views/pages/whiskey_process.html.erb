@@ -1,4 +1,38 @@
-<h1>Whiskey Making Process Page</h1>
-<br>
-This is my temporary Whiskey Making Process page!  This does not need I18N because it is going away
-<br><br>
+<h1><%= t('.title') %></h1>  <!-- "Whiskey Making Process Page" -->
+<h2 id="disclaimer">
+  <p>
+    <%= t('.disclaimer') %>
+  </p>
+</h2>
+<p><%= t('.ever_wonder') %></p><!-- "Ever wonder how whiskey is made? These are the basic steps:" -->
+<ol id="process" class="accordion">
+  <li>
+    <button class="accordion-title"><%= t('.make_mash') %></button><!-- "Make the mash" -->
+    <div class="accordion-details">
+      <p><%= t('.mash_details') %></p><!-- "Mash details....." -->
+    </div>
+  </li>
+  <li>
+    <button class="accordion-title"><%= t('.ferment') %></button><!-- "Ferment the mash" -->
+    <div class="accordion-details">
+      <p><%= t('.ferment_details') %></p><!-- "Fermentation details....." -->
+    </div>
+  </li>
+  <li>
+    <button class="accordion-title"><%= t('.distill') %></button><!-- "Distillation" -->
+    <div class="accordion-details">
+      <p><%= t('.distill_details') %></p><!-- "Distillation details....." -->
+    </div>
+  </li>
+  <li>
+    <button class="accordion-title"><%= t('.aging') %></button><!-- "Aging" -->
+    <div class="accordion-details">
+      <p><%= t('.aging_details') %></p><!-- "Aging details....." -->
+    </div>
+   </li>
+</ol>
+<p>
+  <%= t('.more_details') %>
+  <a href="http://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=how+to+make+whiskey">Amazon</a>
+</p>
+<%= javascript_tag "accordion();" %>

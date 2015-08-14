@@ -111,3 +111,11 @@ function slideShow() {
     }
   });
 }
+
+// JavaScript to add an Accordion
+function accordion() {
+  $('.accordion-title').on('click', function(event) {
+    event.preventDefault();
+    $(this).next().slideToggle();
+  });
+}

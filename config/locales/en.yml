@@ -312,6 +312,19 @@ en:
     home:
       title: "Home*"
       welcome: "Welcome to Spirit of the North Distillery!*"
+    whiskey_process:
+      title: "Whiskey Making Process Page*"
+      disclaimer: "Notice: In most countries, including the United States, it is illegal to distill alcoholic spirits without a license. In other countries it is never legal. Any information about the production of spirits is purely for educational purposes.  This information is not intended to be a step by step guide for the production of alcoholic spirits and may be inaccurate. It is not intended to encourage people to break the laws that apply to them.  Even if it is legal for you to distill spirits, it can be dangerous; seek credible information on how to do so safely.*"
+      ever_wonder: "Ever wonder how whiskey is made? These are the basic steps:*"
+      make_mash: "Make the mash*"
+      mash_details: "Mash details.....*"
+      ferment: "Ferment the mash*"
+      ferment_details: "Fermentation details.....*"
+      distill: "Distillation*"
+      distill_details: "Distillation details.....*"
+      aging: "Aging*"
+      aging_details: "Aging details.....*"
+      more_details: "Want even more details? Many books on the topic are available from*"
   products:
     create: "Product was successfully created.*"
     update: "Product was successfully updated.*"
