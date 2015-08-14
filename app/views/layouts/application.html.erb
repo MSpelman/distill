@@ -11,7 +11,7 @@
 <body>
   <div id="header">
     <%= image_tag("logo.jpg", size: "100x100", alt: "Wolf Logo", id: "logo") %>
-    <h1><%= link_to t('application.root_link'), root_path %></h1> <!-- "Spirit of the North" -->
+    <h1 class="header"><%= link_to t('application.root_link'), root_path %></h1> <!-- "Spirit of the North" -->
     <div id="menu_bar">
       <% if admin_user? %>
         <%= render(file: '/layouts/_admin_menu_bar.html.erb') %>

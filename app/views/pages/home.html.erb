@@ -1,5 +1,13 @@
-<h1>Home Page</h1>
+<h1><%= t('.title') %></h1> <!-- "Home" -->
 <br />
-This is my temporary home page!  This does not need I18N because it is going away
-<br /><br />
-<%= image_tag("home.jpg", size: "750x563", alt: "Loon with Whiskey", id: "home-image") %>
+<h2 class="home-subheading"><%= t('.welcome') %></h2> <!-- "Welcome to Spirit of the North Distillery!" -->
+<div class="slide-viewer">
+  <div class="slide-container">
+    <div class="slide"><%= image_tag("home_1.jpg", size: "750x563", alt: "Loon with Whiskey") %></div>
+    <div class="slide"><%= image_tag("home_2.jpg", size: "750x563", alt: "Bottle of Whiskey") %></div>
+    <div class="slide"><%= image_tag("home_3.jpg", size: "750x563", alt: "Meadow, trees, and sky") %></div>
+  </div>
+</div>
+<div class="slide-buttons">
+
+<%= javascript_tag "slideShow();" %>

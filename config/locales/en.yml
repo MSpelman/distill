@@ -300,6 +300,15 @@ en:
       cancel_order: "Cancel Order*"
       are_you_sure: "Are you sure you want to cancel this Order?*"
   pages:
+    contact:
+      title: "Contact Us Page*"
+      how_to_contact: "Want to contact us? Here's how!*"
+      email_label: "email:*"
+      email: "spirit_of_the_north@example.com"
+      phone_label: "Phone:*"
+      phone: "608-555-1234*"
+      address_label: "Address:*"
+      address: "1234 Test Dr, Madison, WI  53719*"
     home:
       title: "Home*"
       welcome: "Welcome to Spirit of the North Distillery!*"
