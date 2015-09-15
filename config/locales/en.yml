@@ -342,6 +342,9 @@ en:
       title: "Editing Product*"
     index:
       title: "Listing Products*"
+      search_by_name: "Search by name:*"
+      search: "Search...*"
+      all: "All*"
       name: "Name*"
       price: "Price*"
       product_type: "Product Type*"
@@ -499,6 +502,7 @@ en:
         product_total: "Product Total*"
         tax: "Tax*"
         amount_due: "Amount Due*"
+      product_type: "Name*"
       product:
         name: "Name*"
         price: "Price*"

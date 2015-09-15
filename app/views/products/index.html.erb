@@ -1,27 +1,37 @@
 <h1><%= t('.title') %></h1>  <!-- "Listing Products" -->
 
-<table>
+<div class="name-search" class="field">
+  <%= label_tag :name, t('.search_by_name') %><br /> <!-- "Search by name:" -->
+  <%= text_field_tag :search_name, nil, placeholder: t('.search'), id: "search-input" %> <!-- "Search..." -->
+</div>
+
+<div class="type-filter" class="field">
+  <%= label_tag :product_type_id %><br />
+  <%= select_tag :product_type_id, options_from_collection_for_select(ProductType.all, :name, :name), prompt: t('.all') %> <!-- "All" -->
+</div>
+
+<table class="sortable-table">
   <thead>
     <tr>
       <th></th>
-      <th><%= t('.name') %></th> <!-- "Name" -->
-      <th><%= t('.price') %></th> <!-- "Price" -->
-      <th><%= t('.product_type') %></th> <!-- "Product Type" -->
-      <th><%= t('.rating') %></th> <!-- "Rating" -->
+      <th data-sort="name"><%= t('.name') %></th> <!-- "Name" -->
+      <th data-sort="number"><%= t('.price') %></th> <!-- "Price" -->
+      <th data-sort="name"><%= t('.product_type') %></th> <!-- "Product Type" -->
+      <th data-sort="rating"><%= t('.rating') %></th> <!-- "Rating" -->
       <th><%= t('.description') %></th> <!-- "Description" -->
-      <th><%= t('.release_date') %></th> <!-- "Release Date" -->
-      <th><%= t('.active') if admin_user? %></th> <!-- "Active?" -->
+      <th data-sort="date"><%= t('.release_date') %></th> <!-- "Release Date" -->
+      <th data-sort="boolean"><%= t('.active') if admin_user? %></th> <!-- "Active?" -->
       <th></th>
     </tr>
   </thead>
 
-  <tbody>
+  <tbody class="filtered-table">
     <% @products.each do |product| %>
       <tr>
         <td><%= image_tag("#{Rails.env}/products/#{product.image_file_name}", size: "30x30", alt: product.name) unless product.image_file_name.nil? %></td>
-        <td><%= link_to product.name, product %></td>
+        <td><%= link_to product.name, product, class: "name-column" %></td>
         <td><%= product.price %></td>
-        <td><%= product.product_type.name unless product.product_type.nil? %></td>
+        <td class="type"><%= product.product_type.name unless product.product_type.nil? %></td>
         <td><%= product.average_rating %></td>
         <td><%= product.description %></td>
         <td><%= product.release_date %></td>
@@ -35,3 +45,6 @@
 <br>
 
 <%= link_to(t('.new_product'), new_product_path) if admin_user? %> <!-- "New Product" -->
+<%= javascript_tag "filter();" %>
+<%= javascript_tag "search();" %>
+<%= javascript_tag "sort();" %>
