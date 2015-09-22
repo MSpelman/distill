@@ -5,15 +5,15 @@
 <p>
   <%= link_to t('.new_message'), new_message_path %> <!-- "New Message" -->
 </p>
-<table>
+<table class="sortable-table">
   <thead>
     <tr>
-      <th><abbr title="<%= t('.reply_title') %>"><%= t('.reply_abbr') %></abbr></th> <!-- "Was this message a reply?", "Rpl?" -->
-      <th><%= t('.to') %></th> <!-- "To" -->
-      <th><%= t('.subject') %></th> <!-- "Subject" -->
-      <th><%= t('.date') %></th> <!-- "Date" -->
+      <th data-sort="rplfwd"><abbr title="<%= t('.reply_title') %>"><%= t('.reply_abbr') %></abbr></th> <!-- "Was this message a reply?", "Rpl?" -->
+      <th data-sort="name"><%= t('.to') %></th> <!-- "To" -->
+      <th data-sort="subject"><%= t('.subject') %></th> <!-- "Subject" -->
+      <th data-sort="date"><%= t('.date') %></th> <!-- "Date" -->
       <th><%= t('.time') %></th> <!-- "Time" -->
-      <th><%= t('.type') %></th> <!-- "Type" -->
+      <th data-sort="name"><%= t('.type') %></th> <!-- "Type" -->
       <th></th>
       <th></th>
     </tr>
@@ -22,3 +22,4 @@
     <%= render @messages %>
   </tbody>
 </table>
+<%= javascript_tag "sort();" %>
