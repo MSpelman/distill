@@ -34,11 +34,6 @@ body {
   z-index: 25;
   padding: 5px;}
 
-/* #home-image {
-  display: block;
-  margin: 0 auto;
-  margin-bottom: 10px;} */
-
 h2.home-subheading {
   text-align: center;}
 
@@ -85,6 +80,16 @@ h2.home-subheading {
 .accordion-details {
   display: none;}
 
+.selected-record {
+  display: none;}
+
+.record-lookup-table {
+  background-color: white;
+  color: black;
+  width: 400px;
+  padding: 5px;
+  margin: 2px;}
+
 #contact_info {
   text-align: center;}
 
@@ -95,6 +100,9 @@ h2.home-subheading {
   margin: 10px auto;
   z-index: 50;
   border: 3px solid gray;}
+
+#user-select-title {
+  text-align: center;}
 
 #footer {
   background-color: gray;
@@ -108,9 +116,16 @@ a, a:link, a:visited {
   color: white;
   text-decoration: none;}
 
+div.select-record a, div.select-record a:link, div.select-record a:visited {
+  color: black;
+  text-decoration: none;}
+
 a:hover {
   color: green;
   text-decoration: underline;}
+
+div.select-record a:hover {
+  color: green;}
 
 a:active {
   color: red;}

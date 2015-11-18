@@ -369,4 +369,31 @@ class MessagesControllerTest < ActionController::TestCase
     assert_nil assigns(:messages)
   end
 
+  test "should get user_lookup" do
+    login_as(:admin)
+    # Start out at new since it is the only view that uses user_lookup
+    get :new
+    assert_response :success
+    assert_template "new"
+    # Case where nothing entered
+    get :user_lookup, user_lookup: "", format: :js
+    assert_response :success
+    assert_nil assigns(:users)
+    # Case where no user found
+    get :user_lookup, user_lookup: "James", format: :js
+    assert_response :success
+    assert_equal 0, assigns(:users).length
+    # Case where one or more users found
+    get :user_lookup, user_lookup: "admin", format: :js
+    assert_response :success
+    assert_equal 2, assigns(:users).length
+  end
+
+  test "should not get user_lookup" do
+    login_as(:user)
+    get :user_lookup, user_lookup: "admin"
+    assert_response :redirect
+    assert_nil assigns(:users)
+  end
+
 end

@@ -108,7 +108,9 @@ en:
     update: "Message was successfully forwarded.*"
     send: "Send*"
     form:
-      to: "To:*"
+      placeholder: "Recipient name or email*"
+      user_search: "Search*"
+      to: "To: *"
       select_user: "Select User*"
       message_type: "Message Type*"
       select_type: "Select Type*"
@@ -131,6 +133,10 @@ en:
       type: "Type: *"
       subject: "Subject: *"
       body: "Body*"
+    user_lookup_table:
+      select_user: "Select a user:*"
+      select: "Select*"
+      cancel: "Cancel*"
     edit:
       title: "Forwarding Message*"
       to: "To:*"
@@ -198,6 +204,8 @@ en:
       back: "Back*"
       reply: "Reply*"
       forward: "Forward*"
+    user_lookup:
+      no_user_found: "No user found*"
   order_products:
     create: "Product was successfully added to Order.*"
     update: "Product was successfully updated on Order.*"

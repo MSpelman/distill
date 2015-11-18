@@ -1,7 +1,8 @@
 class MessagesController < ApplicationController
+  # respond_to :html, :json
   before_action :set_message, only: [:show, :edit, :update, :destroy]
-  before_action :user_only, except: [:edit, :update]
-  before_action :admin_only, only: [:edit, :update]
+  before_action :user_only, except: [:edit, :update, :user_lookup]
+  before_action :admin_only, only: [:edit, :update, :user_lookup]
 
   # GET /messages
   # GET /messages.json
@@ -156,6 +157,25 @@ class MessagesController < ApplicationController
     session[:messaging_context] = :mailbox_out
   end
 
+  # GET /messages/user_lookup
+  def user_lookup
+    lookup_string = params[:user_lookup] + '%'  # % is wildcard for where method/SQL
+
+    # User hit Search without entering a lookup string
+    return if (lookup_string == '%')
+
+    # Lookup based on email or name
+    @users = User.where("(email LIKE ?) OR (name LIKE ?)", lookup_string, lookup_string)
+
+    # No matching users found
+    return if (@users.size < 1)
+
+    # Respond with _user_lookup partial with users found (@users)
+    respond_to do |format|
+      format.js { }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_message
@@ -173,4 +193,5 @@ class MessagesController < ApplicationController
       admin_user = User.where("((admin = ?) AND (active = ?))", true, true) if admin_user.empty?
       return admin_user.first
     end
+
 end

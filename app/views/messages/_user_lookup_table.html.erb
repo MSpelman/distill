@@ -1,0 +1,14 @@
+<div class="record-lookup-table">
+  <strong id="user-select-title"><%= t('.select_user') %></strong> <!-- "Select a user:" -->
+  <table>
+    <tbody>
+    <% @users.each do |user| %>
+      <%= content_tag_for(:tr, user) do %>
+        <td class="record-name"><%= user.name_and_email %></td>
+        <td><a href="#"><%= t('.select') %></a></td> <!-- "Select" -->
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+  <a href="#" class="select-cancel"><%= t('.cancel') %></a> <!-- "Cancel" -->
+</div>

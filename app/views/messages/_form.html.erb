@@ -1,32 +1,49 @@
-<%= form_for(@message) do |f| %>
-  <% if @message.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@message.errors.count, t('application.error')) %> <%= t('activerecord.errors.template.header') %></h2> <!-- "error", " prohibited this record from being saved" -->
+<% if @message.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@message.errors.count, t('application.error')) %> <%= t('activerecord.errors.template.header') %></h2> <!-- "error", " prohibited this record from being saved" -->
 
-      <ul>
-      <% @message.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
+    <ul>
+    <% @message.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class="record-lookup-error"></div>
+<% reply = session[:parent_message_id] ? true : false %>
+
+<% if admin_user? %>
+<div class="field record-select" id="user-select">
+  <% unless reply %>
+  <%= form_tag(messages_user_lookup_path, remote: true, method: "get", class: "record-lookup-form") do %>
+    <%= text_field_tag :user_lookup, nil, placeholder: t('.placeholder'), id: "user-lookup", class: "record-lookup" %> <!-- "Recipient name or email" -->
+    <%= submit_tag(t('.user_search'), class: 'record-search-button', id: 'user-search-button') %><br>
   <% end %>
-
-  <% disabled = session[:parent_message_id] ? true : false %>
+  <% end %>
+  <div id="select-user" class="select-record"></div>
+  <%= t('.to') %><br /> <!-- "To:" -->
+  <% user_lookup_label = "" %>
+  <% unless ((@message.recipient_user_id.nil?)||(@message.recipient_user_id == "")) %>
+    <% recipient_user = User.find(@message.recipient_user_id) %>
+    <% user_lookup_label = "#{recipient_user.name_and_email}" %>
+  <% end %>
+  <%= label_tag :user_lookup, user_lookup_label, class: "record-display" %><br />
+</div>
+<% end %>
+<%= form_for(@message) do |f| %>
   <% if admin_user? %>
-  <div class="field">
-    <%= label_tag :recipient_user_id, t('.to') %><br> <!-- "To:" -->
-    <%= collection_select(:message, :recipient_user_id, User.all, :id, :name, {prompt: t('.select_user')}, {disabled: disabled}) %> <!-- "Select User" -->
+  <div class="selected-record-container">
+    <%= f.number_field :recipient_user_id, {class: "selected-record", disabled: reply} %>
   </div>
   <div class="field">
     <%= f.label :message_type_id, t('.message_type') %><br> <!-- "Message Type" -->
-    <%= collection_select(:message, :message_type_id, MessageType.active_only, :id, :name, {prompt: t('.select_type')}, {disabled: disabled}) %> <!-- "Select Type" -->
+    <%= collection_select(:message, :message_type_id, MessageType.active_only, :id, :name, {prompt: t('.select_type')}, {disabled: reply}) %> <!-- "Select Type" -->
   </div>
   <% end %>
   <div class="field">
     <%= f.label :subject %><br>
-    <%= f.text_field :subject, {disabled: disabled} %>
+    <%= f.text_field :subject, {disabled: reply} %>
   </div>
-
   <div class="field">
     <%= f.label :body %><br>
     <%= f.text_area :body %>

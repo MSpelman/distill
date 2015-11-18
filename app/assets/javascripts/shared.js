@@ -101,3 +101,44 @@ function sort() {
     });
   });
 }
+// Function used for record selection 
+function recordSelect(containerId) {
+  if (containerId.charAt(0) !== '#') {
+    containerId = '#' + containerId;
+  }
+  // Set up variables
+  var $selectContainer = $(containerId);
+  var $lookupForm = $selectContainer.find('.record-lookup-form');
+  var $lookupTextField = $selectContainer.find('.record-lookup');
+  var $searchButton = $selectContainer.find('.record-search-button');
+  var $recordSelect = $selectContainer.find('div.select-record');
+  var $recordTable = $recordSelect.find('div.record-lookup-table');
+  var $recordSelectRows = $recordSelect.find('tbody tr');
+  var $cancelLink = $recordSelect.find('a.select-cancel');
+  var $selectedRecordDisplay = $selectContainer.find('.record-display');
+  var $selectedRecordField = $selectContainer.next().find('.selected-record');
+
+  // Add event listener to each record select row
+  $recordSelectRows.on('click', function(event) {
+    var selectedRecordId;
+    var selectedRecordName;
+    var $selectedRow = $(this);
+    event.preventDefault;  // If they click on 'Select' link, don't follow it
+    // Display the selected record
+    selectedRecordName = $selectedRow.find('td.record-name').text();
+    $selectedRecordDisplay.text(selectedRecordName);
+    // Store selected record so it is passed to server when form submitted
+    selectedRecordId = $selectedRow.attr('id').replace('user_', '');
+    $selectedRecordField.val(selectedRecordId);
+    $recordTable.remove();  // Remove listing of records to choose from
+    $lookupTextField.val('');
+    $searchButton.removeAttr('disabled');
+  });
+  // Add event listener for cancel link
+  $cancelLink.on('click', function(event) {
+    event.preventDefault;
+    $recordTable.remove();
+    $lookupTextField.val('');
+    $searchButton.removeAttr('disabled');
+  });
+}

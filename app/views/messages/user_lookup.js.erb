@@ -1,0 +1,13 @@
+<% unless ((@users.nil?) ) %>
+  <% if (@users.size > 0) %>
+    var searchButton = document.getElementById('user-search-button');
+    searchButton.disabled = true;
+    var $lookupTable = $("<%= escape_javascript(render 'user_lookup_table') %>");
+    $lookupTable.appendTo('#select-user');
+    recordSelect('#user-select');
+    $('.record-lookup-error').empty();
+  <% else %>
+    $('.record-lookup-error').append("<%= t('.no_user_found') %>"); <!-- "No user found" -->
+    $('#user-select').find('.record-lookup').val('');
+  <% end %>
+<% end %>

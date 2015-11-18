@@ -43,6 +43,7 @@ Distill::Application.routes.draw do
     get :whiskey_process
   end
   resources :message_types
+  get 'messages/user_lookup'
   get 'messages/reply'
   resources :messages do
     resources :recipient_users
